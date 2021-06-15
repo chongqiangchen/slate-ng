@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  & + & {
+    margin-top: 0;
+  }
+}
+
+.checkbox {
+  margin-right: 0.75em;
+  display: inline-block;
+  width: 20px;
+  vertical-align: text-top;
+}
+
+
+.child {
+  flex: 1;
+
+  &:focus {
+    outline: none;
+  }
+}

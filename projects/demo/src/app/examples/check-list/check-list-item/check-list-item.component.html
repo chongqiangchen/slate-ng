@@ -1,0 +1,13 @@
+<span [attr.contenteditable]="false" class="checkbox">
+  <input type="checkbox" [checked]="this.cNode?.checked" (change)="handleCheckboxChange($event)" />
+</span>
+<span
+  [attr.contenteditable]="true"
+  class="child"
+  [ngStyle]="{
+    opacity: this.cNode?.checked ? 0.666 : 1,
+    'text-decoration': this.cNode?.checked ? 'none' : 'line-through'
+  }"
+>
+  <ns-portal-entry [portals]="portals"></ns-portal-entry>
+</span>

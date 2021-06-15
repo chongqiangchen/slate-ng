@@ -1,0 +1,10 @@
+<span
+  [ngClass]="className"
+  [ngStyle]="{
+    cursor: 'pointer',
+    color: color
+  }"
+  (mousedown)="onMouseDown.emit($event)"
+>
+  <ng-content></ng-content>
+</span>

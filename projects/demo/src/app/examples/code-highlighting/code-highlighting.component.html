@@ -1,0 +1,29 @@
+<div
+  [attr.contentEditable]="false"
+  [style]="{ position: 'relative', top: '5px', right: '5px' }"
+>
+  <h3>
+    Select a language
+    <select
+      [(ngModel)]="language"
+      [style]="{ float: 'right' }"
+      (ngModelChange)="handle($event)"
+    >
+      <option value="js">JavaScript</option>
+      <option value="css">CSS</option>
+      <option value="html">HTML</option>
+      <option value="python">Python</option>
+      <option value="sql">SQL</option>
+      <option value="java">Java</option>
+      <option value="php">PHP</option>
+    </select>
+  </h3>
+</div>
+<div
+  ns-editor
+  [editor]="editor"
+  [decorate]="decorate"
+  [value]="initialValue"
+  placeholder="Write some code..."
+>
+</div>

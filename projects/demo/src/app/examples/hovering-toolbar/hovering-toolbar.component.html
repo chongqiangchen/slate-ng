@@ -1,0 +1,10 @@
+<div
+  #nsEditor
+  ns-editor
+  [editor]="editor"
+  [value]="initialValue"
+  placeholder="Enter some text..."
+  [nsOnBeforeInput]="handleOnBeforeInput"
+  (click)="show($event)"
+  (blur)="hide()"
+></div>

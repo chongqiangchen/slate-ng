@@ -1,0 +1,25 @@
+<div [attr.contenteditable]="false">
+  <div [style]="{
+    'padding': '75% 0 0 0',
+    position: 'relative'
+  }">
+    <iframe
+      [src]="url | safeUrl"
+      frameBorder="0"
+      [style]="{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%'
+      }"
+    ></iframe>
+  </div>
+  <app-url-input
+    [url]="url"
+    (urlChange)="handleUrlChange($event)"
+  ></app-url-input>
+</div>
+<ng-container *ngFor="let portal of portals; trackBy: trackBy">
+  <ng-template [cdkPortalOutlet]="portal"></ng-template>
+</ng-container>

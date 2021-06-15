@@ -1,0 +1,40 @@
+<div>
+  <app-toolbar>
+    <app-icon-button
+      icon="format_bold"
+      [isActive]="isMarkActive('bold')"
+      (onMouseDown)="toggleMark('bold')"
+    ></app-icon-button>
+    <app-icon-button
+      icon="format_italic"
+      [isActive]="isMarkActive('italic')"
+      (onMouseDown)="toggleMark('italic')"
+    ></app-icon-button>
+    <app-icon-button
+      icon="format_underline"
+      [isActive]="isMarkActive('underline')"
+      (onMouseDown)="toggleMark('underline')"
+    ></app-icon-button>
+    <app-icon-button
+      icon="format_code"
+      [isActive]="isMarkActive('code')"
+      (onMouseDown)="toggleMark('code')"
+    ></app-icon-button>
+  </app-toolbar>
+
+  <app-iframe-container [containerRef]="viewContainerRef" [templateRef]="editorTmpl" [tmplContext]="tmplContext" (onBlur)="handleBlur($event)">
+  </app-iframe-container>
+</div>
+
+<ng-template #editorTmpl let-edit="editor">
+  <div
+    ns-editor
+    [editor]="editor"
+    [value]="initialValue"
+    [nsOnKeyDown]="onKeyDown"
+    [nsSelectionChange]="selectionChange"
+    spellCheck
+    autoFocus
+    placeholder="Enter some rich text..."
+  ></div>
+</ng-template>

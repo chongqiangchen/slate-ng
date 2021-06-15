@@ -1,0 +1,9 @@
+<ng-container *ngIf="node" [ngSwitch]="node.type">
+  <span *ngSwitchCase="'container'" [leaf-item]="node.next"></span>
+  <strong *ngSwitchCase="'bold'" [leaf-item]="node.next"></strong>
+  <code *ngSwitchCase="'code'" [leaf-item]="node.next"></code>
+  <em *ngSwitchCase="'italic'" [leaf-item]="node.next"></em>
+  <u *ngSwitchCase="'underline'" [leaf-item]="node.next"></u>
+  <ng-template ngSwitchDefault [cdkPortalOutlet]="node.portal"></ng-template>
+</ng-container>
+

@@ -1,0 +1,19 @@
+<div class="void-box">
+  <h4>Name: </h4>
+  <input
+    type="text"
+    [style]="{margin: '8px 0'}"
+    [(ngModel)]="name"
+  />
+  <h4>Left or Right handed: </h4>
+  <input type="radio" name="handedness" value="left" [style]="{width: 'unset'}" />Left<br />
+  <input type="radio" name="handedness" value="right" [style]="{width: 'unset'}" />Right <br />
+
+  <h4>Tell us about u:</h4>
+  <div [style]="{padding: '20px', border: '2px solid #ddd'}">
+    <app-rich-text></app-rich-text>
+  </div>
+</div>
+
+<ns-portal-entry [portals]="portals"></ns-portal-entry>
+

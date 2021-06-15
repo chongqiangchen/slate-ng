@@ -1,0 +1,6 @@
+<input
+  class="url-input"
+  [ngModel]="url"
+  (ngModelChange)="handleChange($event)"
+  (click)="$event.stopPropagation()"
+/>

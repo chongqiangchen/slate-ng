@@ -1,0 +1,11 @@
+{
+  "name": "slate-ng",
+  "version": "0.0.1-alpha.2",
+  "peerDependencies": {
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.2.4"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
