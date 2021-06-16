@@ -1,12 +1,12 @@
-import { Component, Inject, ViewEncapsulation } from "@angular/core";
-import { LEAF_CHILD_PORTAL_TOKEN } from "../../element/token";
-import { ComponentPortal } from "@angular/cdk/portal";
-import { BaseLeafComponent } from "./base-leaf.component";
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { LEAF_CHILD_PORTAL_TOKEN } from '../../element/token';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { BaseLeafComponent } from './base-leaf.component';
 
 @Component({
-  selector: "span[ns-leaf]",
-  templateUrl: "./leaf.component.html",
-  styleUrls: ["./leaf.component.css"],
+  selector: 'span[ns-leaf]',
+  templateUrl: './leaf.component.html',
+  styleUrls: ['./leaf.component.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class LeafComponent extends BaseLeafComponent {

@@ -1,5 +1,5 @@
-import { Editor, Node, Path, Point, Range, Transforms } from "slate";
-import { Injector } from "@angular/core";
+import { Editor, Node, Path, Point, Range, Transforms } from 'slate';
+import { Injector } from '@angular/core';
 import {
   DOMElement,
   DOMNode,
@@ -10,8 +10,8 @@ import {
   hasShadowRoot,
   isDOMElement,
   isDOMSelection, normalizeDOMPoint
-} from "../utils/dom";
-import { Key } from "../utils/key";
+} from '../utils/dom';
+import { Key } from '../utils/key';
 import {
   EDITOR_TO_ELEMENT,
   EDITOR_TO_WINDOW, ELEMENT_TO_NODE, IS_FOCUSED, IS_READ_ONLY,
@@ -19,8 +19,8 @@ import {
   NODE_TO_INDEX,
   NODE_TO_KEY,
   NODE_TO_PARENT
-} from "../utils/weak-maps";
-import { IS_CHROME } from "../utils/environment";
+} from '../utils/weak-maps';
+import { IS_CHROME } from '../utils/environment';
 
 /**
  * A Angular and DOM-specific version of the `Editor` interface.
@@ -47,7 +47,7 @@ export const AngularEditor = {
   getWindow(editor: AngularEditor): Window {
     const window = EDITOR_TO_WINDOW.get(editor);
     if (!window) {
-      throw new Error("Unable to find a host window element for this editor");
+      throw new Error('Unable to find a host window element for this editor');
     }
     return window;
   },
@@ -127,7 +127,7 @@ export const AngularEditor = {
         : target.parentElement) as HTMLElement;
     } catch (err) {
       if (
-        !err.message.includes("Permission denied to access property \"nodeType\"")
+        !err.message.includes('Permission denied to access property "nodeType"')
       ) {
         throw err;
       }
@@ -141,7 +141,7 @@ export const AngularEditor = {
       targetEl.closest(`[data-slate-ng-editor]`) === editorEl &&
       (!editable ||
         targetEl.isContentEditable ||
-        !!targetEl.getAttribute("data-slate-zero-width"))
+        !!targetEl.getAttribute('data-slate-zero-width'))
     );
   },
 
@@ -284,24 +284,26 @@ export const AngularEditor = {
   toSlatePoint<T extends boolean>(
     editor: AngularEditor,
     domPoint: DOMPoint,
-    extractMatch: T
+    extractMatch: T,
   ): T extends true ? Point | null : Point {
     const [nearestNode, nearestOffset] = extractMatch
       ? domPoint
       : normalizeDOMPoint(domPoint);
+
     const parentNode = nearestNode.parentNode as DOMElement;
+
     let textNode: DOMElement | null = null;
     let offset = 0;
 
     if (parentNode) {
-      const voidNode = parentNode.closest("[data-slate-void=\"true\"]");
-      let leafNode = parentNode.closest("[data-slate-leaf]");
+      const voidNode = parentNode.closest('[data-slate-void="true"]');
+      let leafNode = parentNode.closest('[data-slate-leaf]');
       let domNode: DOMElement | null = null;
-
       // Calculate how far into the text node the `nearestNode` is, so that we
       // can determine what the offset relative to the text node is.
       if (leafNode) {
-        textNode = leafNode.closest("[data-slate-node=\"text\"]")!;
+        textNode = leafNode.closest('[data-slate-node="text"]')!;
+
         const window = AngularEditor.getWindow(editor);
         const range = window.document.createRange();
         range.setStart(textNode, 0);
@@ -309,10 +311,10 @@ export const AngularEditor = {
         const contents = range.cloneContents();
         const removals = [
           ...Array.prototype.slice.call(
-            contents.querySelectorAll("[data-slate-zero-width]")
+            contents.querySelectorAll('[data-slate-zero-width]')
           ),
           ...Array.prototype.slice.call(
-            contents.querySelectorAll("[contenteditable=false]")
+            contents.querySelectorAll('[contenteditable=false]')
           )
         ];
 
@@ -330,18 +332,40 @@ export const AngularEditor = {
       } else if (voidNode) {
         // For void nodes, the element with the offset key will be a cousin, not an
         // ancestor, so find it by going down from the nearest void parent.
-        leafNode = voidNode.querySelector("[data-slate-leaf]")!;
+        leafNode = voidNode.querySelector('[data-slate-leaf]')!;
 
         // COMPAT: In read-only editors the leaf is not rendered.
         if (!leafNode) {
           offset = 1;
         } else {
-          textNode = leafNode.closest("[data-slate-node=\"text\"]")!;
-          domNode = leafNode;
-          offset = domNode.textContent!.length;
-          domNode.querySelectorAll("[data-slate-zero-width]").forEach(el => {
-            offset -= el.textContent!.length;
+          // 暂时保持和上面一直处理逻辑
+          textNode = leafNode.closest('[data-slate-node="text"]')!;
+
+          const window = AngularEditor.getWindow(editor);
+          const range = window.document.createRange();
+          range.setStart(textNode, 0);
+          range.setEnd(nearestNode, nearestOffset);
+          const contents = range.cloneContents();
+          const removals = [
+            ...Array.prototype.slice.call(
+              contents.querySelectorAll('[data-slate-zero-width]')
+            ),
+            ...Array.prototype.slice.call(
+              contents.querySelectorAll('[contenteditable=false]')
+            )
+          ];
+
+          removals.forEach(el => {
+            el!.parentNode!.removeChild(el);
           });
+
+          // COMPAT: Edge has a bug where Range.prototype.toString() will
+          // convert \n into \r\n. The bug causes a loop when slate-react
+          // attempts to reposition its cursor to match the native position. Use
+          // textContent.length instead.
+          // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/10291116/
+          offset = contents.textContent!.length;
+          domNode = textNode;
         }
       }
 
@@ -353,7 +377,7 @@ export const AngularEditor = {
       if (
         domNode &&
         offset === domNode.textContent!.length &&
-        parentNode.hasAttribute("data-slate-zero-width")
+        parentNode.hasAttribute('data-slate-zero-width')
       ) {
         offset--;
       }
@@ -383,7 +407,7 @@ export const AngularEditor = {
   toSlateNode(editor: AngularEditor, domNode: DOMNode): Node {
     let domEl = isDOMElement(domNode) ? domNode : domNode.parentElement;
 
-    if (domEl && !domEl.hasAttribute("data-slate-node")) {
+    if (domEl && !domEl.hasAttribute('data-slate-node')) {
       domEl = domEl.closest(`[data-slate-node]`);
     }
 
@@ -401,7 +425,7 @@ export const AngularEditor = {
    */
 
   findEventRange(editor: AngularEditor, event: any): Range {
-    if ("nativeEvent" in event) {
+    if ('nativeEvent' in event) {
       event = event.nativeEvent;
     }
 
@@ -424,7 +448,7 @@ export const AngularEditor = {
         : y - rect.top < rect.top + rect.height - y;
 
       const edge = Editor.point(editor, path, {
-        edge: isPrev ? "start" : "end"
+        edge: isPrev ? 'start' : 'end'
       });
       const point = isPrev
         ? Editor.before(editor, edge)
@@ -474,19 +498,21 @@ export const AngularEditor = {
 
     // The below exception will always be thrown for iframes because the document inside an iframe
     // does not inherit it's prototype from the parent document, therefore we return early
-    if (el.ownerDocument !== document) return el.ownerDocument;
+    if (el.ownerDocument !== document) { return el.ownerDocument; }
 
-    if (!(root instanceof Document || root instanceof ShadowRoot))
+    if (!(root instanceof Document || root instanceof ShadowRoot)) {
       throw new Error(
         `Unable to find DocumentOrShadowRoot for editor element: ${el}`
       );
+    }
 
     // COMPAT: Only Chrome implements the DocumentOrShadowRoot mixin for
     // ShadowRoot; other browsers still implement it on the Document
     // interface. (2020/08/08)
     // https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot#Properties
-    if (root.getSelection === undefined && el.ownerDocument !== null)
+    if (root.getSelection === undefined && el.ownerDocument !== null) {
       return el.ownerDocument;
+    }
 
     return root;
   },
@@ -582,11 +608,11 @@ export const AngularEditor = {
     const startEl = (isDOMElement(startNode)
       ? startNode
       : startNode.parentElement) as HTMLElement;
-    const isStartAtZeroWidth = !!startEl.getAttribute("data-slate-zero-width");
+    const isStartAtZeroWidth = !!startEl.getAttribute('data-slate-zero-width');
     const endEl = (isDOMElement(endNode)
       ? endNode
       : endNode.parentElement) as HTMLElement;
-    const isEndAtZeroWidth = !!endEl.getAttribute("data-slate-zero-width");
+    const isEndAtZeroWidth = !!endEl.getAttribute('data-slate-zero-width');
 
     domRange.setStart(startNode, isStartAtZeroWidth ? 1 : startOffset);
     domRange.setEnd(endNode, isEndAtZeroWidth ? 1 : endOffset);
@@ -622,7 +648,7 @@ export const AngularEditor = {
       }
 
       const { length } = domNode.textContent;
-      const attr = text.getAttribute("data-slate-length");
+      const attr = text.getAttribute('data-slate-length');
       const trueLength = attr == null ? length : parseInt(attr, 10);
       const end = start + trueLength;
 

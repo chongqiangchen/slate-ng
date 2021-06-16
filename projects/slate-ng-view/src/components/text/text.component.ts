@@ -11,8 +11,8 @@ import {
   OnInit,
   StaticProvider,
   ViewEncapsulation
-} from "@angular/core";
-import { BaseElementComponent } from "../element/base-element";
+} from '@angular/core';
+import { BaseElementComponent } from '../element/base-element';
 import {
   CHILD_PORTALS_TOKEN,
   CURRENT_NODE_TOKEN,
@@ -22,28 +22,28 @@ import {
   LEAF_CHILD_PORTAL_TOKEN,
   LEAF_TOKEN,
   PARENT_NODE_TOKEN
-} from "../element/token";
-import { ComponentPortal } from "@angular/cdk/portal";
-import { Key } from "../../utils/key";
-import { BaseRange, Element, Text as SlateText, Text } from "slate";
-import { LeafComponent } from "./leaf/leaf.component";
-import { LeafChildComponent } from "./leaf-child/leaf-child.component";
-import { BaseTextComponent } from "./base-text";
-import { NsDepsService } from "../../services/ns-deps.service";
-import { RegistryNsElement } from "../../services/registry-ns-element.service";
+} from '../element/token';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { Key } from '../../utils/key';
+import { BaseRange, Element, Text as SlateText, Text } from 'slate';
+import { LeafComponent } from './leaf/leaf.component';
+import { LeafChildComponent } from './leaf-child/leaf-child.component';
+import { BaseTextComponent } from './base-text';
+import { NsDepsService } from '../../services/ns-deps.service';
+import { RegistryNsElement } from '../../services/registry-ns-element.service';
 
 @Component({
-  selector: "span[ns-text]",
-  templateUrl: "./text.component.html",
-  styleUrls: ["./text.component.css"],
+  selector: 'span[ns-text]',
+  templateUrl: './text.component.html',
+  styleUrls: ['./text.component.css'],
   host: {
-    "data-slate-node": "text"
+    'data-slate-node': 'text'
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class TextComponent extends BaseTextComponent implements OnInit, AfterViewInit, OnDestroy {
-  static type = "text";
+  static type = 'text';
   leaves: SlateText[] = [];
   leafPortals = [];
 
@@ -66,7 +66,7 @@ export class TextComponent extends BaseTextComponent implements OnInit, AfterVie
   getLeafPortals() {
     this.leaves.forEach(leaf => {
       this.leafPortals.push(this.getLeafPortal(leaf));
-    })
+    });
   }
 
   getLeafPortal(leaf: Text) {
@@ -92,8 +92,8 @@ export class TextComponent extends BaseTextComponent implements OnInit, AfterVie
     const leafProviders: StaticProvider[] = providers.concat({
       provide: LEAF_CHILD_PORTAL_TOKEN,
       useValue: leafChildPortal
-    })
-    return this.customService.getComponentPortal("leaf", leafProviders, this.injector, LeafComponent);
+    });
+    return this.customService.getComponentPortal('leaf', leafProviders, this.injector, LeafComponent);
   }
 
   ngAfterViewInit() {

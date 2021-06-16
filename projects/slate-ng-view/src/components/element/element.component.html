@@ -1,1 +1,3 @@
-<ns-portal-entry [portals]="portals"></ns-portal-entry>
+<ng-container *ngFor="let portal of portals; trackBy: trackBy">
+  <ng-template [cdkPortalOutlet]="portal"></ng-template>
+</ng-container>

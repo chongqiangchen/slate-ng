@@ -7,23 +7,23 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation
-} from "@angular/core";
-import { PLACEHOLDER_SYMBOL } from "../../../utils/weak-maps";
+} from '@angular/core';
+import { PLACEHOLDER_SYMBOL } from '../../../utils/weak-maps';
 import {
   CURRENT_NODE_TOKEN,
   IS_LAST_TOKEN,
   LEAF_TOKEN,
   PARENT_NODE_TOKEN,
   PLACEHOLDER_CHILDREN_TOKEN
-} from "../../element/token";
-import { Text } from "slate";
-import { PlaceholderComponent } from "../placeholder/placeholder.component";
-import { RegistryNsElement } from "../../../services/registry-ns-element.service";
+} from '../../element/token';
+import { Text } from 'slate';
+import { PlaceholderComponent } from '../placeholder/placeholder.component';
+import { RegistryNsElement } from '../../../services/registry-ns-element.service';
 
 @Component({
-  selector: "ns-leaf-child",
-  templateUrl: "./leaf-child.component.html",
-  styleUrls: ["./leaf-child.component.css"],
+  selector: 'ns-leaf-child',
+  templateUrl: './leaf-child.component.html',
+  styleUrls: ['./leaf-child.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
@@ -48,7 +48,7 @@ export class LeafChildComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
     if (this.hasPlaceholder) {
       this.placeholderPortal =
-        this.customService.getComponentPortal("placeholder", [{
+        this.customService.getComponentPortal('placeholder', [{
           provide: PLACEHOLDER_CHILDREN_TOKEN,
           useValue: (this.leaf as any).placeholder
         }], this.injector, PlaceholderComponent);
@@ -58,10 +58,10 @@ export class LeafChildComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     // todo: 可以重构，使用editorService
     const editorEl = this.editorEl = document.querySelector<HTMLDivElement>(
-      "[data-slate-ng-editor=\"true\"]"
+      '[data-slate-ng-editor="true"]'
     );
 
-    const placeholderEl = document.querySelector<HTMLElement>("[data-slate-placeholder=\"true\"]");
+    const placeholderEl = document.querySelector<HTMLElement>('[data-slate-placeholder="true"]');
 
     if (!placeholderEl || !editorEl) {
       return;
@@ -71,6 +71,6 @@ export class LeafChildComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.editorEl && (this.editorEl.style.minHeight = "auto");
+    this.editorEl && (this.editorEl.style.minHeight = 'auto');
   }
 }

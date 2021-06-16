@@ -22,7 +22,7 @@ import {
   NODE_TO_ELEMENT, NODE_TO_KEY
 } from '../../utils/weak-maps';
 import scrollIntoView from 'scroll-into-view-if-needed';
-import { IS_FIREFOX, IS_SAFARI } from '../../utils/environment';
+import {IS_CHROME, IS_FIREFOX, IS_SAFARI} from '../../utils/environment';
 import { fromEvent, interval, Subject } from 'rxjs';
 import { takeUntil, throttle } from 'rxjs/operators';
 import { hasEditableTarget, hasTarget, isEventHandled, isTargetInsideVoid } from '../../utils/common';
@@ -184,11 +184,12 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
   }
 
   toNativeSelection() {
+    console.log(22);
+
     const editor = this.editor;
     const { selection } = editor;
     const root = AngularEditor.findDocumentOrShadowRoot(editor);
     const domSelection = root.getSelection();
-
     if (this.isComposing || !domSelection || !AngularEditor.isFocused(editor)) {
       return;
     }
@@ -213,7 +214,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
     // If the DOM selection is in the editor and the editor selection is already correct, we're done.
     if (hasDomSelection && hasDomSelectionInEditor && selection) {
       const slateRange = AngularEditor.toSlateRange(editor, domSelection, {
-        exactMatch: false // see https://github.com/ianstormtaylor/slate/pull/4304
+        exactMatch: true, // see https://github.com/ianstormtaylor/slate/pull/4304
       });
       if (slateRange && Range.equals(slateRange, selection)) {
         return;
@@ -526,6 +527,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       !isEventHandled(event, this.nsOnCompositionUpdate)
     ) {
       this.isComposing = true;
+      // this.placeholder = '';
     }
   }
 
@@ -535,7 +537,6 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       !isEventHandled(event, this.nsOnCompositionEnd)
     ) {
       this.isComposing = false;
-
       // COMPAT: In Chrome, `beforeinput` events for compositions
       // aren't correct and never fire the "insertFromComposition"
       // type that we need. So instead, insert whenever a composition
@@ -555,8 +556,6 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
     ) {
       return;
     }
-
-    const window = AngularEditor.getWindow(this.editor);
 
     // COMPAT: If the current `activeElement` is still the previous
     // one, this is due to the window being blurred when the tab
@@ -596,6 +595,14 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       if (Element.isElement(node) && !this.editor.isVoid(node)) {
         return;
       }
+    }
+
+    // COMPAT: Safari doesn't always remove the selection even if the content-
+    // editable element no longer has focus. Refer to:
+    // https://stackoverflow.com/questions/12353247/force-contenteditable-div-to-stop-accepting-input-after-it-loses-focus-under-web
+    if (IS_SAFARI) {
+      const domSelection = root.getSelection();
+      domSelection?.removeAllRanges();
     }
 
     IS_FOCUSED.delete(this.editor);
@@ -718,7 +725,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       const nativeEvent = event;
       const { selection } = editor;
 
-      const element = this.editor.children[selection !== null ? selection.focus.path[0] : 0];
+      const element = editor.children[selection !== null ? selection.focus.path[0] : 0];
       const isRTL = getDirection(Node.string(element)) === 'rtl';
 
       // COMPAT: Since we prevent the default behavior on
@@ -727,9 +734,10 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       // hotkeys ourselves. (2019/11/06)
       if (Hotkeys.isRedo(nativeEvent)) {
         event.preventDefault();
+        const maybeHistoryEditor: any = editor;
 
-        if (HistoryEditor.isHistoryEditor(editor)) {
-          editor.redo();
+        if (typeof maybeHistoryEditor.redo === 'function') {
+          maybeHistoryEditor.redo();
         }
 
         return;
@@ -737,9 +745,10 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
 
       if (Hotkeys.isUndo(nativeEvent)) {
         event.preventDefault();
+        const maybeHistoryEditor: any = editor;
 
-        if (HistoryEditor.isHistoryEditor(editor)) {
-          editor.undo();
+        if (typeof maybeHistoryEditor.undo === 'function') {
+          maybeHistoryEditor.undo();
         }
 
         return;
@@ -766,7 +775,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         Transforms.move(editor, {
           unit: 'line',
           edge: 'focus',
-          reverse: true
+          reverse: true,
         });
         return;
       }
@@ -808,12 +817,22 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
 
       if (Hotkeys.isMoveWordBackward(nativeEvent)) {
         event.preventDefault();
+
+        if (selection && Range.isExpanded(selection)) {
+          Transforms.collapse(editor, { edge: 'focus' });
+        }
+
         Transforms.move(editor, { unit: 'word', reverse: !isRTL });
         return;
       }
 
       if (Hotkeys.isMoveWordForward(nativeEvent)) {
         event.preventDefault();
+
+        if (selection && Range.isExpanded(selection)) {
+          Transforms.collapse(editor, { edge: 'focus' });
+        }
+
         Transforms.move(editor, { unit: 'word', reverse: isRTL });
         return;
       }
@@ -909,6 +928,33 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           }
 
           return;
+        }
+      } else {
+        if (IS_CHROME || IS_SAFARI) {
+          // COMPAT: Chrome and Safari support `beforeinput` event but do not fire
+          // an event when deleting backwards in a selected void inline node
+          if (
+            selection &&
+            (Hotkeys.isDeleteBackward(nativeEvent) ||
+              Hotkeys.isDeleteForward(nativeEvent)) &&
+            Range.isCollapsed(selection)
+          ) {
+            const currentNode = Node.parent(
+              editor,
+              selection.anchor.path
+            );
+
+            if (
+              Element.isElement(currentNode) &&
+              Editor.isVoid(editor, currentNode) &&
+              Editor.isInline(editor, currentNode)
+            ) {
+              event.preventDefault();
+              Transforms.delete(editor, { unit: 'block' });
+
+              return;
+            }
+          }
         }
       }
     }

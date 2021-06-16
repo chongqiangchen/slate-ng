@@ -7,16 +7,18 @@ import {
   OnInit,
   TemplateRef,
   ViewChild,
-} from "@angular/core";
-import { Editor, Element, Node, Path, Text } from "slate";
-import { AngularEditor } from "../../../plugins/angular-editor";
-import { NsEditorService } from "../../../services/ns-editor.service";
+  ViewEncapsulation,
+} from '@angular/core';
+import {Editor, Element, Node, Path, Text} from 'slate';
+import {AngularEditor} from '../../../plugins/angular-editor';
+import {NsEditorService} from '../../../services/ns-editor.service';
 
 @Component({
   selector: 'ns-string',
   templateUrl: './string.component.html',
   styleUrls: ['./string.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class StringComponent implements OnInit, AfterViewInit {
   @Input() isLast: boolean;
@@ -36,19 +38,18 @@ export class StringComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-
   }
 
   ngAfterViewInit() {
     const editor = this.editorService.editor;
     const path = AngularEditor.findPath(editor, this.cNode);
-    const parentPath = Path.parent(path)
+    const parentPath = Path.parent(path);
     if (editor.isVoid(this.pNode)) {
       this.template = this.ZeroWidthStringTmpl;
       this.context = {
         length: Node.string(this.pNode).length,
         isLineBreak: false
-      }
+      };
     }
 
     if (
@@ -61,7 +62,7 @@ export class StringComponent implements OnInit, AfterViewInit {
       this.context = {
         length: 0,
         isLineBreak: true
-      }
+      };
     }
 
     if (this.leaf.text === '') {
@@ -69,15 +70,16 @@ export class StringComponent implements OnInit, AfterViewInit {
       this.context = {
         length: 0,
         isLineBreak: false
-      }
+      };
     }
 
     if (this.isLast && this.leaf.text.slice(-1) === '\n') {
+      console.log(11)
       this.template = this.TextStringTmpl;
       this.context = {
         isTrailing: true,
         text: this.leaf.text
-      }
+      };
     }
 
     if (!this.template) {
@@ -85,7 +87,7 @@ export class StringComponent implements OnInit, AfterViewInit {
       this.context = {
         isTrailing: false,
         text: this.leaf.text
-      }
+      };
     }
     this.cdr.detectChanges();
   }
