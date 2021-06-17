@@ -4,9 +4,12 @@ import {
   ElementRef, EventEmitter,
   SimpleChanges,
   Input,
-  NgZone, OnChanges,
-  OnInit, Output,
-  Renderer2, ViewChild, OnDestroy
+  NgZone,
+  OnChanges,
+  OnInit,
+  Output,
+  Renderer2,
+  OnDestroy
 } from '@angular/core';
 import { AngularEditor } from '../../plugins/angular-editor';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Range, Transforms } from 'slate';
@@ -28,7 +31,6 @@ import { takeUntil, throttle } from 'rxjs/operators';
 import { hasEditableTarget, hasTarget, isEventHandled, isTargetInsideVoid } from '../../utils/common';
 import getDirection from 'direction';
 import Hotkeys from '../../utils/hotkeys';
-import { HistoryEditor } from 'slate-history';
 import { NsEditorService } from '../../services/ns-editor.service';
 
 

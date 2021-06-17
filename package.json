@@ -1,6 +1,6 @@
 {
-  "name": "slate-ng-refactor",
-  "version": "0.0.0",
+  "name": "slate-ng",
+  "version": "0.0.0-NOT-USED",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -1,11 +1,29 @@
 {
   "name": "slate-ng",
-  "version": "0.0.1-alpha.2",
+  "description": "Tools for building completely customizable richtext editors with Angular.",
+  "version": "0.0.1",
+  "repository": "https://github.com/chongqiangchen/slate-ng.git",
+  "keywords": [
+    "slate",
+    "slate-angular",
+    "slate-ng",
+    "editor",
+    "editable",
+    "rich",
+    "richtext",
+    "markdown"
+  ],
   "peerDependencies": {
     "@angular/common": "^10.2.4",
-    "@angular/core": "^10.2.4"
+    "@angular/core": "^10.2.4",
+    "@angular/cdk": "^10.2.4"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "slate": "^0.62.0",
+    "slate-history": "^0.62.0",
+    "slate-hyperscript": "^0.62.0",
+    "is-hotkey": "^0.1.6",
+    "scroll-into-view-if-needed": "2.2.25"
   }
 }

@@ -2,6 +2,8 @@
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.4.
 
-### 开发进行中
+### The doc is being added...
 
-1. 如若需要尝试，可以查看[slate-ng]()
+### How to use：
+
+1. You can view it through the demo source code first. [slate-ng demo](https://github.com/chongqiangchen/slate-ng/tree/master)
