@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "commit": "npx git-cz"
+    "commit": "npx git-cz",
+    "release": "node ./scripts/release.js"
   },
   "private": true,
   "dependencies": {
@@ -23,28 +24,30 @@
     "@angular/router": "~10.2.4",
     "@ngneat/until-destroy": "^8.0.4",
     "direction": "^1.0.3",
-    "rxjs": "~6.6.0",
-    "slate": "^0.62.0",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.10.2",
+    "faker": "^4.1.0",
+    "is-hotkey": "^0.1.6",
+    "lodash": "^4.17.4",
     "ng-zorro-antd": "10.2.2",
     "prismjs": "^1.23.0",
-    "faker": "^4.1.0",
-    "lodash": "^4.17.4",
+    "rxjs": "~6.6.0",
+    "scroll-into-view-if-needed": "2.2.25",
+    "slate": ">=0.55.0",
     "slate-history": "^0.62.0",
     "slate-hyperscript": "^0.62.0",
-    "is-hotkey": "^0.1.6",
-    "scroll-into-view-if-needed": "2.2.25"
+    "tslib": "^2.0.0",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.149",
     "@angular-devkit/build-angular": "~0.1002.3",
     "@angular/cli": "~10.2.3",
     "@angular/compiler-cli": "~10.2.4",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/lodash": "^4.14.149",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "simple-git-hooks": ">=2.0.3",
+    "inquirer": "^8.1.1",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",
@@ -52,13 +55,24 @@
     "karma-coverage-istanbul-reporter": "~3.0.2",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
+    "lint-staged": "^11.0.0",
     "ng-packagr": "^10.1.0",
     "protractor": "~7.0.0",
+    "semver": "^7.3.5",
+    "standard-version": "^9.3.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
   },
   "peerDependencies": {
     "slate": ">=0.55.0"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "yarn lint-staged"
+  },
+  "lint-staged": {
+    "**/*.{ts}": [
+      "yarn lint --fix"
+    ]
   }
 }
