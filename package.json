@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-site:prod": "ng build --prod --base-href /demo/",
+    "build-site:prod": "ng build demo --base-href /demo/ --prod --aot --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
