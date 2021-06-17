@@ -1,7 +1,14 @@
-<ns-string
-  [isLast]="isLast"
-  [leaf]="leaf"
-  [pNode]="pNode"
-  [cNode]="cNode"
-></ns-string>
+<ng-container *ngTemplateOutlet="template; context: context"></ng-container>
 <ng-template *ngIf="hasPlaceholder" [cdkPortalOutlet]="placeholderPortal"></ng-template>
+
+
+<ng-template #ZeroWidthString let-length="length" let-isLineBreak="isLineBreak">
+  <span [attr.data-slate-zero-width]="isLineBreak ? 'n' : 'z'" [attr.data-slate-length]="length">
+    <span [innerHTML]="'\uFEFF'"></span>
+    <br *ngIf="isLineBreak" />
+  </span>
+</ng-template>
+
+<ng-template #TextString let-text="text" let-isTrailing="isTrailing">
+  <span data-slate-string>{{text}}<br *ngIf="isTrailing" /></span>
+</ng-template>
