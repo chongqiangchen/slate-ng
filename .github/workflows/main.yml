@@ -21,7 +21,7 @@ jobs:
       - name: npm install, build, and test
         run: |
           npm install
-          npm run build demo --prod
+          npm run build-site:prod
           cp dist/demo/index.html dist/demo/404.html
         env:
           CI: true
