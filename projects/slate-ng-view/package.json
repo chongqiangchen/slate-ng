@@ -24,6 +24,8 @@
     "slate-history": "^0.62.0",
     "slate-hyperscript": "^0.62.0",
     "is-hotkey": "^0.1.6",
-    "scroll-into-view-if-needed": "2.2.25"
+    "scroll-into-view-if-needed": "2.2.25",
+    "@ngneat/until-destroy": "^8.0.4",
+    "direction": "^1.0.3"
   }
 }

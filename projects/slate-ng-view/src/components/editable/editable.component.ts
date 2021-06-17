@@ -186,8 +186,6 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
   }
 
   toNativeSelection() {
-    console.log(22);
-
     const editor = this.editor;
     const { selection } = editor;
     const root = AngularEditor.findDocumentOrShadowRoot(editor);

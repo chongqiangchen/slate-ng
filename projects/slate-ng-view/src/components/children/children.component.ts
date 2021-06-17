@@ -61,11 +61,9 @@ export class ChildrenComponent implements OnInit {
     EDITOR_TO_ON_CHANGE.set(editor, () => {
       this.getDecorations(editor);
       this.showPortals = this.resolvePortals(editor);
-      console.time('change');
       this.cdr.detectChanges();
       // 需在resolvePortals结束后进行触发toNativeSelection事件，不然会造成得到的KEY_TO_ELEMENT错误
       onChange();
-      console.timeEnd('change');
     });
   }
 

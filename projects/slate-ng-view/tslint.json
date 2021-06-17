@@ -10,6 +10,7 @@
     "no-non-null-assertion": false,
     "ban-types": false,
     "no-unused-expression": false,
-    "no-conditional-assignment": false
+    "no-conditional-assignment": false,
+    "no-console": true
   }
 }
