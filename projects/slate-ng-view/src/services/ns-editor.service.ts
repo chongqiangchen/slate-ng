@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularEditor } from "../plugins/angular-editor";
 import { Descendant } from "slate";
-import { SlateNgViewModule } from "../slate-ng-view.module";
+import { SlateNgModule } from "../slate-ng.module";
 
 @Injectable()
 export class NsEditorService {

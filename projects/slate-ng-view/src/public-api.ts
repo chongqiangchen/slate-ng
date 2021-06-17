@@ -2,7 +2,7 @@
  * Public API Surface of slate-ng-view
  */
 
-export * from './slate-ng-view.module';
+export * from './slate-ng.module';
 
 // component
 export * from './components/editable/editable.component';

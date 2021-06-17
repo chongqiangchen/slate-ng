@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {SlateNgViewModule} from 'slate-ng-view';
 import {PortalModule} from '@angular/cdk/portal';
 import {PlaceholderComponent} from './placeholder/placeholder.component';
 import {CheckListComponent} from './examples/check-list/check-list.component';
@@ -46,6 +45,7 @@ import {IframeContainerComponent} from './examples/iframe/iframe-container/ifram
 import {TableComponent} from './examples/table/table.component';
 import {CustomTableElements} from './examples/table/element';
 import {MarkdownShortcutsComponent} from './examples/markdown-shortcuts/markdown-shortcuts.component';
+import {SlateNgModule} from 'slate-ng-view';
 
 
 @NgModule({
@@ -93,7 +93,7 @@ import {MarkdownShortcutsComponent} from './examples/markdown-shortcuts/markdown
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SlateNgViewModule,
+    SlateNgModule,
     PortalModule,
     NzAlertModule,
     BrowserAnimationsModule,

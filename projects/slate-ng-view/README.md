@@ -7,7 +7,7 @@ This library was generated with [Angular CLI](https://github.com/angular/angular
 ### Quick Start：
 
 1. install: `npm install slate-ng slate slate-history @angular/cdk`
-2. import module: `SlateNgViewModule`
+2. import module: `SlateNgModule`
 3. use `ns-editor`, ex: 
 ```
 // html

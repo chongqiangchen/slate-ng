@@ -58,5 +58,5 @@ import {PortalEntryComponent} from './components/portal-entry/portal-entry.compo
     PortalEntryComponent
   ]
 })
-export class SlateNgViewModule {
+export class SlateNgModule {
 }
