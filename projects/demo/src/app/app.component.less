@@ -1,4 +1,38 @@
-.editor-container {
-  width: 50vw;
-  margin: auto;
+.menu {
+  display: flex;
+  padding: 20px 10px;
+
+  /** 重置文本格式元素 **/
+  a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    height: 20px;
+    border: 1px solid #bfbfbf;
+    padding: 10px 10px;
+    color: black;
+    border-radius: 4px;
+  }
+
+  a:hover { text-decoration: underline; }
+
+  a + a {
+    margin-left: 10px;
+  }
+
+  .active {
+    color: white;
+    background: #1890ff;
+  }
 }
+
+.editor-container {
+  width: 60vw;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 5px;
+  min-height: 200px;
+}
+

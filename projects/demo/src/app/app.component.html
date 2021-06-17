@@ -1,3 +1,8 @@
+<div class="menu">
+  <ng-container *ngFor="let route of routeList">
+    <a [routerLink]="route.path" routerLinkActive="active">{{route.path}}</a>
+  </ng-container>
+</div>
 <div class="editor-container">
   <router-outlet></router-outlet>
 </div>
