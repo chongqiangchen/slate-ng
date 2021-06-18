@@ -1,6 +1,8 @@
 .menu {
   display: flex;
   padding: 20px 10px;
+  width: max-content;
+  margin-bottom: 10px;
 
   /** 重置文本格式元素 **/
   a {
@@ -13,6 +15,7 @@
     padding: 10px 10px;
     color: black;
     border-radius: 4px;
+    min-width: 80px;
   }
 
   a:hover { text-decoration: underline; }
@@ -25,6 +28,11 @@
     color: white;
     background: #1890ff;
   }
+}
+
+.menu-container {
+  width: 100vw;
+  overflow: auto;
 }
 
 .editor-container {
