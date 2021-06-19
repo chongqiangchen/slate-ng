@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,20 +11,16 @@ import {
   StaticProvider,
   ViewEncapsulation
 } from '@angular/core';
-import { BaseElementComponent } from '../element/base-element';
 import {
-  CHILD_PORTALS_TOKEN,
   CURRENT_NODE_TOKEN,
-  DECORATIONS_TOKEN,
   IS_LAST_TOKEN,
   KEY_TOKEN,
   LEAF_CHILD_PORTAL_TOKEN,
   LEAF_TOKEN,
   PARENT_NODE_TOKEN
 } from '../element/token';
-import { ComponentPortal } from '@angular/cdk/portal';
 import { Key } from '../../utils/key';
-import { BaseRange, Element, Text as SlateText, Text } from 'slate';
+import { Text as SlateText, Text } from 'slate';
 import { LeafComponent } from './leaf/leaf.component';
 import { LeafChildComponent } from './leaf-child/leaf-child.component';
 import { BaseTextComponent } from './base-text';

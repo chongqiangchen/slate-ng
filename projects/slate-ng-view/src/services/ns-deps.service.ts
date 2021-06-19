@@ -1,6 +1,6 @@
-import { Injectable, Injector } from "@angular/core";
-import { Subject } from "rxjs";
-import { filter } from "rxjs/operators";
+import { Injectable, Injector } from '@angular/core';
+import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class NsDepsService {

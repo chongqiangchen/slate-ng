@@ -1,9 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   Injector,
   Input,
-  OnInit
+  OnInit,
+  ViewEncapsulation
 } from '@angular/core';
 import {Ancestor, BaseRange, Descendant, Editor, Element, Node, NodeEntry, Range} from 'slate';
 import {ElementComponent} from '../element/element.component';
@@ -16,7 +18,8 @@ import {
   IS_LAST_TOKEN,
   KEY_TOKEN,
   NODE_INDEX_TOKEN,
-  PARENT_NODE_TOKEN, SELECTION_TOKEN
+  PARENT_NODE_TOKEN,
+  SELECTION_TOKEN
 } from '../element/token';
 import {AngularEditor} from '../../plugins/angular-editor';
 import {
@@ -35,7 +38,9 @@ import {NsEditorService} from '../../services/ns-editor.service';
 @Component({
   selector: 'ns-children',
   templateUrl: './children.component.html',
-  styleUrls: ['./children.component.css']
+  styleUrls: ['./children.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 export class ChildrenComponent implements OnInit {
   @Input() placeholder: string;

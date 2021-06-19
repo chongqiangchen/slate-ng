@@ -1,9 +1,9 @@
-import { Component, Inject } from "@angular/core";
-import { PLACEHOLDER_CHILDREN_TOKEN } from "../../element/token";
-import { BasePlaceholderComponent } from "./base-placeholder.component";
+import { Component, Inject } from '@angular/core';
+import { PLACEHOLDER_CHILDREN_TOKEN } from '../../element/token';
+import { BasePlaceholderComponent } from './base-placeholder.component';
 
 @Component({
-  selector: "span[ns-placeholder]",
+  selector: 'span[ns-placeholder]',
   template: `
     {{children}}
   `
