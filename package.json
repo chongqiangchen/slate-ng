@@ -5,13 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-lib:prod": "ng build --prod --aot",
+    "build-lib:prod": "ng build --prod",
     "build-site:prod": "ng build demo --base-href /slate-ng/ --prod --aot --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "commit": "npx git-cz",
-    "release": "node ./scripts/release.js"
+    "release": "node ./scripts/release.js && yarn build-lib:prod && npm publish ./dist/slate-ng-view"
   },
   "private": true,
   "dependencies": {
