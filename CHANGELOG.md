@@ -4,8 +4,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.0.1](https://github.com/chongqiangchen/slate-ng/compare/v0.0.0...v0.0.1) (2021-06-17)
 
-### [0.0.1](https://github.com/chongqiangchen/slate-ng/compare/v0.0.0...v0.0.1) (2021-06-17)
-
 ## 0.0.0 (2021-06-17)
 
 
