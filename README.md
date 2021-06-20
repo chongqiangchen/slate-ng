@@ -2,10 +2,14 @@
 
 [中文文档](https://chongqiangchen.github.io/slate-ng-doc/zh/) | [English Doc](https://chongqiangchen.github.io/slate-ng-doc/en/)
 
-### demo
+## Demo
 
 https://chongqiangchen.github.io/slate-ng/
 
-### Todo
+## Todo
 - [ ] support template portal
 - [ ] support dom portal
+
+## LICENSE
+
+[MIT License](./LICENSE)
