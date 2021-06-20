@@ -3,6 +3,7 @@
   "description": "Tools for building completely customizable richtext editors with Angular.",
   "version": "0.0.1",
   "repository": "https://github.com/chongqiangchen/slate-ng.git",
+  "license": "MIT",
   "keywords": [
     "slate",
     "slate-angular",
@@ -16,16 +17,19 @@
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4",
-    "@angular/cdk": "^10.2.4"
+    "@angular/cdk": "^10.2.4",
+    "slate": ">=0.55.0"
   },
-  "dependencies": {
-    "tslib": "^2.0.0",
+  "devDependencies": {
     "slate": "^0.62.0",
     "slate-history": "^0.62.0",
     "slate-hyperscript": "^0.62.0",
+    "@types/is-hotkey": "^0.1.1"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0",
     "is-hotkey": "^0.1.6",
     "scroll-into-view-if-needed": "2.2.25",
-    "@ngneat/until-destroy": "^8.0.4",
     "direction": "^1.0.3"
   }
 }

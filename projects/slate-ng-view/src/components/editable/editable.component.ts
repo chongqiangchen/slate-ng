@@ -14,7 +14,6 @@ import {
 import { AngularEditor } from '../../plugins/angular-editor';
 import { Descendant, Editor, Element, Node, NodeEntry, Path, Range, Transforms } from 'slate';
 import { InputBoolean } from '../../utils/convert';
-import { UntilDestroy } from '@ngneat/until-destroy';
 import { HAS_BEFORE_INPUT_SUPPORT } from '../../polyfills/before-input/before-input-event-plugin';
 import { getDefaultView, isDOMNode, isPlainTextOnlyPaste } from '../../utils/dom';
 import {
@@ -46,7 +45,6 @@ const defaultDecorate: (entry: NodeEntry) => Range[] = () => [];
 // A content editable <span> or <div> element can be
 // placed inside the individual table cells.
 
-@UntilDestroy({ checkProperties: true })
 @Component({
   selector: 'div[ns-editor], span[ns-editor]',
   host: {
