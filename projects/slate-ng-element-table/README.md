@@ -3,7 +3,7 @@
 
 ### Quick start
 
-with slate-ng use
+Use with slate-ng
 
 ``` 
  // module.ts
