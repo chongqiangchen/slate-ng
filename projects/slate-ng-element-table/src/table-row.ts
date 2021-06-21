@@ -9,21 +9,19 @@ import {
 } from '@angular/core';
 import {BaseElementComponent, Key, KEY_TOKEN, NsDepsService, NsEditorService} from 'slate-ng';
 
-
 @Component({
-  selector: 'table[slate-ng-element-table]',
+  selector: 'tr[slate-ng-element-table-row]',
   template: `
-    <tbody nsElementAttrs>
-      <ng-container *ngFor="let portal of portals; trackBy: trackBy">
-        <ng-template [cdkPortalOutlet]="portal"></ng-template>
-      </ng-container>
-    </tbody>
+    <ng-container *ngFor="let portal of portals; trackBy: trackBy">
+      <ng-template [cdkPortalOutlet]="portal"></ng-template>
+    </ng-container>
+
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class SlateNgElementTable extends BaseElementComponent implements OnInit {
-  static type = 'table';
+export class SlateNgElementTableRow extends BaseElementComponent implements OnInit {
+  static type = 'table-row';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -36,7 +34,7 @@ export class SlateNgElementTable extends BaseElementComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.init({ useHostAttrs: false });
+    this.init();
     this.watchDeps();
   }
 }

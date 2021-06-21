@@ -16,34 +16,34 @@ import {
   TOP_MOUSE_DOWN,
   TOP_TEXT_INPUT,
   TOP_PASTE
-} from "./dom-top-level-event-types";
+} from './dom-top-level-event-types';
 import {
   getData as FallbackCompositionStateGetData,
   reset as FallbackCompositionStateReset,
   initialize as FallbackCompositionStateInitialize
-} from "./fallback-composition-state";
+} from './fallback-composition-state';
 
 const canUseDOM: boolean = !!(
-  typeof window !== "undefined" &&
-  typeof window.document !== "undefined" &&
-  typeof window.document.createElement !== "undefined"
+  typeof window !== 'undefined' &&
+  typeof window.document !== 'undefined' &&
+  typeof window.document.createElement !== 'undefined'
 );
 
 
 const END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 const START_KEYCODE = 229;
 
-export const canUseCompositionEvent = canUseDOM && "CompositionEvent" in window;
+export const canUseCompositionEvent = canUseDOM && 'CompositionEvent' in window;
 
 let documentMode = null;
-if (canUseDOM && "documentMode" in document) {
+if (canUseDOM && 'documentMode' in document) {
   documentMode = (document as any).documentMode;
 }
 
 // Webkit offers a very useful `textInput` event that can be used to
 // directly represent `beforeInput`. The IE `textinput` event is not as
 // useful, so we don't use it.
-const canUseTextInputEvent = canUseDOM && "TextEvent" in window && !documentMode;
+const canUseTextInputEvent = canUseDOM && 'TextEvent' in window && !documentMode;
 
 // In IE9+, we have access to composition events, but the data supplied
 // by the native compositionend event may be incorrect. Japanese ideographic
@@ -101,7 +101,7 @@ function isFallbackCompositionEnd(topLevelType, nativeEvent) {
  */
 function getDataFromCustomEvent(nativeEvent) {
   const detail = nativeEvent.detail;
-  if (typeof detail === "object" && "data" in detail) {
+  if (typeof detail === 'object' && 'data' in detail) {
     return detail.data;
   }
   return null;
@@ -116,7 +116,7 @@ function getDataFromCustomEvent(nativeEvent) {
  *
  */
 function isUsingKoreanIME(nativeEvent) {
-  return nativeEvent.locale === "ko";
+  return nativeEvent.locale === 'ko';
 }
 
 // Track the current IME composition status, if any.
@@ -250,7 +250,7 @@ export function extractBeforeInputEvent(topLevelType, targetInst, nativeEvent, n
   }
 
   let beforeInputEvent: any = {};
-  Object.defineProperty(nativeEvent, "data", {
+  Object.defineProperty(nativeEvent, 'data', {
     writable: true
   });
   beforeInputEvent = nativeEvent;
@@ -265,12 +265,12 @@ export function extractBeforeInputEvent(topLevelType, targetInst, nativeEvent, n
  */
 function getCompositionEventType(domEventName: string) {
   switch (domEventName) {
-    case "compositionstart":
-      return "onCompositionStart";
-    case "compositionend":
-      return "onCompositionEnd";
-    case "compositionupdate":
-      return "onCompositionUpdate";
+    case 'compositionstart':
+      return 'onCompositionStart';
+    case 'compositionend':
+      return 'onCompositionEnd';
+    case 'compositionupdate':
+      return 'onCompositionUpdate';
   }
 }
 
@@ -282,7 +282,7 @@ function isFallbackCompositionStart(
   domEventName: string,
   nativeEvent: any
 ): boolean {
-  return domEventName === "keydown" && nativeEvent.keyCode === START_KEYCODE;
+  return domEventName === 'keydown' && nativeEvent.keyCode === START_KEYCODE;
 }
 
 
@@ -302,10 +302,10 @@ export function extractCompositionEvent(
     eventType = domEventName;
   } else if (!isComposing) {
     if (isFallbackCompositionStart(domEventName, nativeEvent)) {
-      eventType = "compositionstart";
+      eventType = 'compositionstart';
     }
   } else if (isFallbackCompositionEnd(domEventName, nativeEvent)) {
-    eventType = "compositionend";
+    eventType = 'compositionend';
   }
 
   if (!eventType) {
@@ -315,9 +315,9 @@ export function extractCompositionEvent(
   if (useFallbackCompositionData && !isUsingKoreanIME(nativeEvent)) {
     // The current composition is stored statically and must not be
     // overwritten while composition continues.
-    if (!isComposing && eventType === "compositionstart") {
+    if (!isComposing && eventType === 'compositionstart') {
       isComposing = FallbackCompositionStateInitialize(nativeEventTarget);
-    } else if (eventType === "compositionend") {
+    } else if (eventType === 'compositionend') {
       if (isComposing) {
         fallbackData = FallbackCompositionStateGetData();
       }
@@ -325,7 +325,7 @@ export function extractCompositionEvent(
   }
 
   let compositionEvent: any = {};
-  Object.defineProperty(nativeEvent, "data", {
+  Object.defineProperty(nativeEvent, 'data', {
     writable: true
   });
   compositionEvent = nativeEvent;

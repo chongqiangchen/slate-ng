@@ -43,9 +43,9 @@ import {OverlayModule} from '@angular/cdk/overlay';
 import {IframeComponent} from './examples/iframe/iframe.component';
 import {IframeContainerComponent} from './examples/iframe/iframe-container/iframe-container.component';
 import {TableComponent} from './examples/table/table.component';
-import {CustomTableElements} from './examples/table/element';
 import {MarkdownShortcutsComponent} from './examples/markdown-shortcuts/markdown-shortcuts.component';
 import {SlateNgModule} from 'slate-ng';
+import {NsElementTableModule} from 'slate-ng-element-table';
 
 
 @NgModule({
@@ -87,7 +87,6 @@ import {SlateNgModule} from 'slate-ng';
     IframeComponent,
     IframeContainerComponent,
     TableComponent,
-    ...CustomTableElements,
     MarkdownShortcutsComponent
   ],
   imports: [
@@ -99,6 +98,7 @@ import {SlateNgModule} from 'slate-ng';
     BrowserAnimationsModule,
     FormsModule,
     OverlayModule,
+    NsElementTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

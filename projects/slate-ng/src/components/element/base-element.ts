@@ -8,28 +8,28 @@ import {
   Inject,
   OnDestroy, OnInit, ViewChild,
   ViewChildren
-} from "@angular/core";
-import { CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, KEY_TOKEN } from "./token";
+} from '@angular/core';
+import { CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, KEY_TOKEN } from './token';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Key } from "../../utils/key";
-import { ELEMENT_TO_NODE, KEY_TO_ELEMENT, NODE_TO_ELEMENT } from "../../utils/weak-maps";
-import { Editor, Node } from "slate";
-import getDirection from "direction";
-import { takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
-import { NsDepsService } from "../../services/ns-deps.service";
-import { NsEditorService } from "../../services/ns-editor.service";
+import { Key } from '../../utils/key';
+import { ELEMENT_TO_NODE, KEY_TO_ELEMENT, NODE_TO_ELEMENT } from '../../utils/weak-maps';
+import { Editor, Node } from 'slate';
+import getDirection from 'direction';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { NsDepsService } from '../../services/ns-deps.service';
+import { NsEditorService } from '../../services/ns-editor.service';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
 export abstract class BaseElementComponent implements OnInit, OnDestroy {
   destroy$$ = new Subject();
 
-  @HostBinding("attr.data-slate-node") dataSlateNode = undefined;
-  @HostBinding("attr.data-slate-void")  dataSlateVoid = undefined;
-  @HostBinding("attr.data-slate-inline") dataSlateInline = undefined;
-  @HostBinding("attr.contenteditable") contentEditable = undefined;
-  @HostBinding("attr.dir")  dir = undefined;
+  @HostBinding('attr.data-slate-node') dataSlateNode = undefined;
+  @HostBinding('attr.data-slate-void')  dataSlateVoid = undefined;
+  @HostBinding('attr.data-slate-inline') dataSlateInline = undefined;
+  @HostBinding('attr.contenteditable') contentEditable = undefined;
+  @HostBinding('attr.dir')  dir = undefined;
 
   get injector() {
     return this.deps.get(this.key)?.injector;
@@ -99,7 +99,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy {
   watchDeps() {
     this.deps.watch(this.key).pipe(takeUntil(this.destroy$$)).subscribe(e => {
       this.cdr.markForCheck();
-    })
+    });
   }
 
   /**
@@ -120,7 +120,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy {
       const text = Node.string(this.cNode);
       const dir = getDirection(text);
 
-      if (dir === "rtl") {
+      if (dir === 'rtl') {
         this.dir = dir;
       }
     }

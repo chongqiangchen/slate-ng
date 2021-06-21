@@ -1,10 +1,10 @@
-import { DOCUMENT } from "@angular/common";
-import { Inject, Injectable } from "@angular/core";
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable } from '@angular/core';
 import {
   ɵangular_packages_platform_browser_platform_browser_g as EventManagerPlugin
-} from "@angular/platform-browser";
-import { IS_CHROME_LEGACY, IS_EDGE_LEGACY } from "../../utils/environment";
-import { extractBeforeInputEvent } from "./extract-event";
+} from '@angular/platform-browser';
+import { IS_CHROME_LEGACY, IS_EDGE_LEGACY } from '../../utils/environment';
+import { extractBeforeInputEvent } from './extract-event';
 
 // COMPAT: Firefox/Edge Legacy don't support the `beforeinput` event
 // Chrome Legacy doesn't support `beforeinput` correctly
@@ -13,24 +13,24 @@ export const HAS_BEFORE_INPUT_SUPPORT =
   !IS_EDGE_LEGACY &&
   globalThis.InputEvent &&
   // @ts-ignore The `getTargetRanges` property isn't recognized.
-  typeof globalThis.InputEvent.prototype.getTargetRanges === "function";
+  typeof globalThis.InputEvent.prototype.getTargetRanges === 'function';
 
 export const BEFORE_INPUT_EVENTS: { name: string, handler: string, isTriggerBeforeInput: boolean }[] = [
   // { name: 'blur', handler: 'onBlur', isTriggerBeforeInput: true },
   // { name: 'compositionstart', handler: 'onCompositionStart', isTriggerBeforeInput: true },
-  { name: "compositionupdate", handler: null, isTriggerBeforeInput: true },
+  { name: 'compositionupdate', handler: null, isTriggerBeforeInput: true },
   // { name: 'compositionend', handler: 'onCompositionEnd', isTriggerBeforeInput: false },
   // { name: 'keydown', handler: 'onKeyDown', isTriggerBeforeInput: true },
-  { name: "keypress", handler: null, isTriggerBeforeInput: true },
-  { name: "keyup", handler: "onKeyUp", isTriggerBeforeInput: true },
-  { name: "mousedown", handler: "onMouseDown", isTriggerBeforeInput: true },
-  { name: "textInput", handler: null, isTriggerBeforeInput: true }
+  { name: 'keypress', handler: null, isTriggerBeforeInput: true },
+  { name: 'keyup', handler: 'onKeyUp', isTriggerBeforeInput: true },
+  { name: 'mousedown', handler: 'onMouseDown', isTriggerBeforeInput: true },
+  { name: 'textInput', handler: null, isTriggerBeforeInput: true }
   // { name: 'paste', handler: 'onPaste', isTriggerBeforeInput: true }
 ];
 
 @Injectable()
 export class BeforeInputEventPlugin extends EventManagerPlugin {
-  readonly EVENT_NAME = "beforeinput";
+  readonly EVENT_NAME = 'beforeinput';
 
   constructor(@Inject(DOCUMENT) doc: any) {
     super(doc);
@@ -54,8 +54,8 @@ export class BeforeInputEventPlugin extends EventManagerPlugin {
           if (beforeInputEvent) {
             handler(beforeInputEvent);
           }
-        }
-        element.addEventListener(event.name, eventHandler, false)
+        };
+        element.addEventListener(event.name, eventHandler, false);
         mulListeners.push({ eventName: event.name, handler: eventHandler });
       });
     }

@@ -10,6 +10,12 @@
       ],
       "slate-ng/*": [
         "projects/slate-ng/src/*"
+      ],
+      "slate-ng-element-table": [
+        "projects/slate-ng-element-table/src/index.ts"
+      ],
+      "slate-ng-element-table/*": [
+        "projects/slate-ng-element-table/src/*"
       ]
     },
     "allowSyntheticDefaultImports": true
