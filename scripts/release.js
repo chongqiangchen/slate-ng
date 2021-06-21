@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const semver = require('semver');
 const inquirer = require('inquirer');
 
-const currentVersion = require('../projects/slate-ng-view/package.json').version;
+const currentVersion = require('../projects/slate-ng/package.json').version;
 
 const release = async () => {
   console.log(`Current easy cli version is ${currentVersion}`);

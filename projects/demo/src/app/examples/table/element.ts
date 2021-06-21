@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
-import { BaseElementComponent, Key, KEY_TOKEN, NsDepsService, NsEditorService } from 'slate-ng-view';
+import { BaseElementComponent, Key, KEY_TOKEN, NsDepsService, NsEditorService } from 'slate-ng';
 
 
 @Component({

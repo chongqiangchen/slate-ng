@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit } from '@angular/core';
-import { AngularEditor, BaseElementComponent, NsEditorService, Key, KEY_TOKEN, NsDepsService } from 'slate-ng-view';
+import { AngularEditor, BaseElementComponent, NsEditorService, Key, KEY_TOKEN, NsDepsService } from 'slate-ng';
 import { Element as SlateElement, Transforms } from 'slate';
 import { DomSanitizer } from '@angular/platform-browser';
 

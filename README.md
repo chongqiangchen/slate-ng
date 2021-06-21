@@ -9,6 +9,7 @@ https://chongqiangchen.github.io/slate-ng/
 ## Todo
 - [ ] support template portal
 - [ ] support dom portal
+- [x] support slate ng plugins ，ex: we can create TableComp Plugin => in editor use `this.registor.add([TableComp])` => setNode('table') => table ui
 
 ## LICENSE
 

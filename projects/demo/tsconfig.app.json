@@ -5,11 +5,11 @@
     "outDir": "../../out-tsc/app",
     "types": [],
     "paths": {
-      "slate-ng-view": [
-        "projects/slate-ng-view/src/index.ts"
+      "slate-ng": [
+        "projects/slate-ng/src/index.ts"
       ],
-      "slate-ng-view/*": [
-        "projects/slate-ng-view/src/*"
+      "slate-ng/*": [
+        "projects/slate-ng/src/*"
       ]
     },
     "allowSyntheticDefaultImports": true

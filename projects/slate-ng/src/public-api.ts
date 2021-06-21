@@ -1,5 +1,5 @@
 /*
- * Public API Surface of slate-ng-view
+ * Public API Surface of slate-ng
  */
 
 export * from './slate-ng.module';

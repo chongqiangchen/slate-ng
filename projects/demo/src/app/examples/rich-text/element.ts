@@ -8,7 +8,7 @@ import {
   BaseElementComponent,
   KEY_TOKEN,
   Key, NsEditorService, NsDepsService
-} from 'slate-ng-view';
+} from 'slate-ng';
 
 
 @Component({

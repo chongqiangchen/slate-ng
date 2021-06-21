@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
-import { AngularEditor, NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng-view';
+import { AngularEditor, NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng';
 import { withHistory } from 'slate-history';
 import { createEditor, Editor } from 'slate';
 import { CustomLeafComponent } from '../rich-text/custom-leaf/custom-leaf.component';

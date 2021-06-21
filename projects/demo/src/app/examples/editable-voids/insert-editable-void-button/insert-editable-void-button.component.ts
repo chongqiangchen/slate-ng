@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NsEditorService } from 'slate-ng-view';
+import { NsEditorService } from 'slate-ng';
 import { Transforms } from 'slate';
 import { EditableVoidElement } from '../../../../../custom-types';
 

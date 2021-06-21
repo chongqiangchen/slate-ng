@@ -1,7 +1,7 @@
 {
   "bumpFiles": [
     {
-      "filename": "./projects/slate-ng-view/package.json",
+      "filename": "./projects/slate-ng/package.json",
       "type": "json"
     }
   ]

@@ -9,7 +9,7 @@ import {
   NsDepsService,
   BaseElementComponent,
   KEY_TOKEN, Key
-} from 'slate-ng-view';
+} from 'slate-ng';
 
 const withLayout = editor => {
   const { normalizeNode } = editor;

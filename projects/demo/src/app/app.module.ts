@@ -45,7 +45,7 @@ import {IframeContainerComponent} from './examples/iframe/iframe-container/ifram
 import {TableComponent} from './examples/table/table.component';
 import {CustomTableElements} from './examples/table/element';
 import {MarkdownShortcutsComponent} from './examples/markdown-shortcuts/markdown-shortcuts.component';
-import {SlateNgModule} from 'slate-ng-view';
+import {SlateNgModule} from 'slate-ng';
 
 
 @NgModule({

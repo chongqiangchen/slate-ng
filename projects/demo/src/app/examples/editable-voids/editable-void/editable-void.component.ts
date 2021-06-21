@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostBinding, Inject, OnInit } from '@angular/core';
-import { BaseElementComponent, NsEditorService, Key, KEY_TOKEN, NsDepsService } from 'slate-ng-view';
+import { BaseElementComponent, NsEditorService, Key, KEY_TOKEN, NsDepsService } from 'slate-ng';
 
 @Component({
   selector: 'div[app-editable-void]',

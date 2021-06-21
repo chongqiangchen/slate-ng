@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { createEditor, Descendant, Editor, Element as SlateElement, Point, Range } from 'slate';
 import { withHistory } from 'slate-history';
-import { NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng-view';
+import { NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng';
 import { CustomTableElements } from './element';
 import { CustomLeafComponent } from '../rich-text/custom-leaf/custom-leaf.component';
 

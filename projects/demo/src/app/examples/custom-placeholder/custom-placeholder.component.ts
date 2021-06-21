@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { withHistory } from 'slate-history';
-import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng-view';
+import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng';
 import { createEditor, Descendant } from 'slate';
 import { CustomPlaceholder } from './custom-placeholder';
 

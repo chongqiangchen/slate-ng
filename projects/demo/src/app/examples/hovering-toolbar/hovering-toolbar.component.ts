@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, InjectionToken, Injector, OnInit, ViewChild } from '@angular/core';
 import { createEditor, Descendant, Editor, Text, Transforms } from 'slate';
-import { NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng-view';
+import { NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng';
 import { CustomLeafComponent } from '../rich-text/custom-leaf/custom-leaf.component';
 import { withHistory } from 'slate-history';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';

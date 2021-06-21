@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { createEditor, Descendant } from 'slate';
 import { withHistory } from 'slate-history';
-import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng-view';
+import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng';
 import { EditableVoidComponent } from './editable-void/editable-void.component';
 
 const withEditableVoids = editor => {

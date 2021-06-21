@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng-view';
+import { NsDepsService, NsEditorService, RegistryNsElement, withAngular } from 'slate-ng';
 import { HugeDocumentH1 } from './huge-document-h1';
 import { createEditor, Descendant } from 'slate';
 import faker from 'faker';

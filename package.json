@@ -11,7 +11,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "commit": "npx git-cz",
-    "release": "node ./scripts/release.js && yarn build-lib:prod && npm publish ./dist/slate-ng-view"
+    "release": "node ./scripts/release.js && yarn build-lib:prod && npm publish ./dist/slate-ng"
   },
   "private": true,
   "dependencies": {
