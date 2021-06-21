@@ -87,4 +87,6 @@ Use with slate-ng
       ]
   }
  
+  // import css
+  @import "~slate-ng-element-table/table.css";
 ```

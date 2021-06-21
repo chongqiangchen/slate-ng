@@ -13,7 +13,7 @@
     "e2e": "ng e2e",
     "commit": "npx git-cz",
     "release": "node ./scripts/release.js && yarn build-lib:prod && npm publish ./dist/slate-ng",
-    "release-plugin-table": "yarn build-plugin-table:prod && npm publish ./dist/slate-ng-element-table"
+    "release-plugin-table": "yarn build-plugin-table:prod && node ./scripts/build-slate-ng-element-table.js && npm publish ./dist/slate-ng-element-table"
   },
   "private": true,
   "dependencies": {
@@ -50,6 +50,7 @@
     "@types/lodash": "^4.14.149",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "fs-extra": "^10.0.0",
     "glob": "^7.1.7",
     "husky": "^6.0.0",
     "inquirer": "^8.1.1",
