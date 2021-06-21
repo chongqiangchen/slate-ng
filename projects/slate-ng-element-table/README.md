@@ -6,16 +6,20 @@
 Use with slate-ng
 
 ``` 
- // module.ts
+ /// module.ts
  import {NsElementTableModule} from 'slate-ng-element-table';
 
- // component.ts
+ /// component.ts
  // registry element
  this.registryNsElement.add([
       SlateNgElementTable,
       SlateNgElementTableCell,
       SlateNgElementTableRow,
  ]);
+ 
+ // use withTables
+ editor = withTables(withAngular(createEditor()));
+
  
  // value
  {
