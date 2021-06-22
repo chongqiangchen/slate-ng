@@ -50,10 +50,10 @@
     ns-editor
     [editor]="editor"
     [value]="initialValue"
-    [nsOnKeyDown]="onKeyDown"
+    [nsOnCompositionStart]="onKeyDown"
     [nsSelectionChange]="selectChange"
     spellCheck
     autoFocus
-    placeholder="Enter some rich text..."
+    [placeholder]="placeholder"
   ></div>
 </div>

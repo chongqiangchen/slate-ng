@@ -3,8 +3,8 @@ import {
   ChangeDetectorRef,
   Component,
   Injector,
-  Input,
-  OnInit,
+  Input, OnChanges,
+  OnInit, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core';
 import {Ancestor, BaseRange, Descendant, Editor, Element, Node, NodeEntry, Range} from 'slate';
@@ -42,7 +42,7 @@ import {NsEditorService} from '../../services/ns-editor.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class ChildrenComponent implements OnInit {
+export class ChildrenComponent implements OnInit, OnChanges {
   @Input() placeholder: string;
   @Input() decorate: (entry: NodeEntry) => Range[];
 
@@ -70,6 +70,10 @@ export class ChildrenComponent implements OnInit {
       // 需在resolvePortals结束后进行触发toNativeSelection事件，不然会造成得到的KEY_TO_ELEMENT错误
       onChange();
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
   computedPortal(providers, cNode, key): ComponentPortal<any> {
@@ -180,6 +184,7 @@ export class ChildrenComponent implements OnInit {
       if (hasKey && prePortal && preDeps) {
         const preNode = preDeps.injector.get(CURRENT_NODE_TOKEN);
         const preDecorations = preDeps.injector.get(DECORATIONS_TOKEN);
+        const curElementComp = this.customElementService.get((cNode as any).type)?.comp || ElementComponent;
 
         if (Element.isElement(cNode)) {
           if (
@@ -190,8 +195,7 @@ export class ChildrenComponent implements OnInit {
             continue;
           } else if (
             (preNode as any).type === (cNode as any).type &&
-            this.customElementService.get((cNode as any).type) &&
-            prePortal.component === this.customElementService.get((cNode as any).type).comp
+            prePortal.component === curElementComp
           ) {
             this.deps.set(key, this.customElementService.getInjector(providers, this.injector));
             children.push(prePortal);
@@ -200,6 +204,7 @@ export class ChildrenComponent implements OnInit {
         } else {
           const preParentNode = preDeps.injector.get(PARENT_NODE_TOKEN);
           const preIsLast = preDeps.injector.get(IS_LAST_TOKEN);
+          const curTextComp = this.customElementService.get('text')?.comp || TextComponent;
           if (
             preParentNode === pNode &&
             preIsLast === isLast &&
@@ -208,11 +213,7 @@ export class ChildrenComponent implements OnInit {
           ) {
             children.push(prePortal);
             continue;
-          } else if (
-            (preNode as any).type === (cNode as any).type &&
-            this.customElementService.get((cNode as any).type) &&
-            prePortal.component === this.customElementService.get((cNode as any).type).comp
-          ) {
+          } else if (prePortal.component === curTextComp) {
             this.deps.set(key, this.customElementService.getInjector(providers, this.injector));
             children.push(prePortal);
             continue;

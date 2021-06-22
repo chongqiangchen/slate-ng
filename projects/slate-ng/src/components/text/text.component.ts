@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -20,12 +21,13 @@ import {
   PARENT_NODE_TOKEN
 } from '../element/token';
 import { Key } from '../../utils/key';
-import { Text as SlateText, Text } from 'slate';
+import {Editor, Text as SlateText, Text} from 'slate';
 import { LeafComponent } from './leaf/leaf.component';
 import { LeafChildComponent } from './leaf-child/leaf-child.component';
 import { BaseTextComponent } from './base-text';
 import { NsDepsService } from '../../services/ns-deps.service';
 import { RegistryNsElement } from '../../services/registry-ns-element.service';
+import {delay, startWith} from "rxjs/operators";
 
 @Component({
   selector: 'span[ns-text]',
@@ -37,7 +39,7 @@ import { RegistryNsElement } from '../../services/registry-ns-element.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class TextComponent extends BaseTextComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TextComponent extends BaseTextComponent implements OnInit, OnDestroy {
   static type = 'text';
   leaves: SlateText[] = [];
   leafPortals = [];
@@ -54,8 +56,12 @@ export class TextComponent extends BaseTextComponent implements OnInit, AfterVie
   }
 
   ngOnInit(): void {
-    this.leaves = SlateText.decorations(this.cNode, this.decorations);
-    this.getLeafPortals();
+    this.deps.watch(this.key).pipe(startWith(null)).subscribe(res => {
+      this.leafPortals = [];
+      this.leaves = SlateText.decorations(this.cNode, this.decorations);
+      this.getLeafPortals();
+      this.cdr.markForCheck();
+    });
   }
 
   getLeafPortals() {
@@ -89,10 +95,6 @@ export class TextComponent extends BaseTextComponent implements OnInit, AfterVie
       useValue: leafChildPortal
     });
     return this.customService.getComponentPortal('leaf', leafProviders, this.injector, LeafComponent);
-  }
-
-  ngAfterViewInit() {
-    this.init(this.elementRef);
   }
 
   ngOnDestroy() {

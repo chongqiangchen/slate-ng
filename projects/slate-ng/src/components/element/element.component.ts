@@ -1,17 +1,17 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
-  Inject,
+  Inject, OnInit,
   ViewEncapsulation
 } from '@angular/core';
-import { BaseElementComponent } from './base-element';
-import { KEY_TOKEN } from './token';
-import { Key } from '../../utils/key';
-import { NsEditorService } from '../../services/ns-editor.service';
-import { NsDepsService } from '../../services/ns-deps.service';
+import {BaseElementComponent} from './base-element';
+import {KEY_TOKEN} from './token';
+import {Key} from '../../utils/key';
+import {NsEditorService} from '../../services/ns-editor.service';
+import {NsDepsService} from '../../services/ns-deps.service';
+import {startWith, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'div[ns-element]',
@@ -20,7 +20,7 @@ import { NsDepsService } from '../../services/ns-deps.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class ElementComponent extends BaseElementComponent {
+export class ElementComponent extends BaseElementComponent implements OnInit {
   static type = 'default';
 
   constructor(
@@ -31,5 +31,13 @@ export class ElementComponent extends BaseElementComponent {
     public cdr?: ChangeDetectorRef,
   ) {
     super(key, deps, editorService, elementRef, cdr);
+  }
+
+  ngOnInit() {
+    this.deps.watch(this.key)
+      .pipe(takeUntil(this.destroy$$), startWith(null))
+      .subscribe(res => {
+        this.cdr.markForCheck();
+      });
   }
 }

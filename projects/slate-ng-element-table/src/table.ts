@@ -36,7 +36,10 @@ export class SlateNgElementTable extends BaseElementComponent implements OnInit 
   }
 
   ngOnInit() {
-    this.init({ useHostAttrs: false });
     this.watchDeps();
+  }
+
+  useHostAttrs() {
+    return false;
   }
 }

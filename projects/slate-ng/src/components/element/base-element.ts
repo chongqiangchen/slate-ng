@@ -1,13 +1,11 @@
 import {
-  AfterContentChecked, AfterViewInit,
+  AfterViewChecked,
   ChangeDetectorRef,
-  ComponentRef,
   Directive,
   ElementRef,
   HostBinding,
   Inject,
-  OnDestroy, OnInit, ViewChild,
-  ViewChildren
+  OnDestroy,
 } from '@angular/core';
 import { CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, KEY_TOKEN } from './token';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -22,7 +20,7 @@ import { NsEditorService } from '../../services/ns-editor.service';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class BaseElementComponent implements OnInit, OnDestroy {
+export abstract class BaseElementComponent implements OnDestroy, AfterViewChecked {
   destroy$$ = new Subject();
 
   @HostBinding('attr.data-slate-node') dataSlateNode = undefined;
@@ -52,8 +50,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
-    // 若需要传入对应的init options 只需覆写ngOnInit即可
+  ngAfterViewChecked() {
     this.init();
   }
 
@@ -64,16 +61,14 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * 初始化组件
-   * @param options
+   * update element and node info
    */
-  init(options?: {useHostAttrs?: boolean, el?: ElementRef}) {
-    const {el, useHostAttrs = true} = options || {};
-    const nativeElement = el?.nativeElement || this.elementRef.nativeElement;
+  init() {
+    const nativeElement = this.elementRef.nativeElement;
     KEY_TO_ELEMENT.set(this.key, nativeElement);
     NODE_TO_ELEMENT.set(this.cNode, nativeElement);
     ELEMENT_TO_NODE.set(nativeElement, this.cNode);
-    useHostAttrs && this.updateAttrs();
+    this.useHostAttrs() && this.updateAttrs();
   }
 
   /**
@@ -131,5 +126,12 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy {
         this.contentEditable = false;
       }
     }
+  }
+
+  /**
+   * useHostAttrs
+   */
+  useHostAttrs() {
+    return true;
   }
 }

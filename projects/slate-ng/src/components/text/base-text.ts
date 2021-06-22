@@ -1,20 +1,29 @@
-import { ChangeDetectorRef, ComponentRef, Directive, ElementRef, Inject, OnDestroy, ViewChildren } from "@angular/core";
+import {
+  AfterViewChecked,
+  ChangeDetectorRef,
+  ComponentRef,
+  Directive,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  ViewChildren
+} from '@angular/core';
 import {
   CHILD_PORTALS_TOKEN,
   CURRENT_NODE_TOKEN,
   DECORATIONS_TOKEN,
   IS_LAST_TOKEN,
-  KEY_TOKEN,
+  KEY_TOKEN, LEAF_TOKEN,
   PARENT_NODE_TOKEN
-} from "../element/token";
+} from '../element/token';
 import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
-import { Key } from "../../utils/key";
-import { ELEMENT_TO_NODE, KEY_TO_ELEMENT, NODE_TO_ELEMENT } from "../../utils/weak-maps";
-import { NsDepsService } from "../../services/ns-deps.service";
+import { Key } from '../../utils/key';
+import { ELEMENT_TO_NODE, KEY_TO_ELEMENT, NODE_TO_ELEMENT } from '../../utils/weak-maps';
+import { NsDepsService } from '../../services/ns-deps.service';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class BaseTextComponent implements OnDestroy {
+export abstract class BaseTextComponent implements AfterViewChecked ,OnDestroy {
   @ViewChildren(CdkPortalOutlet) slateChildrenOutlets: CdkPortalOutlet[];
 
   get depInjector() {
@@ -53,8 +62,8 @@ export abstract class BaseTextComponent implements OnDestroy {
    * 初始化组件
    * @param el 该组件ElementRef
    */
-  init(el?: ElementRef) {
-    const nativeElement = el?.nativeElement || this.elementRef.nativeElement;
+  init() {
+    const nativeElement = this.elementRef.nativeElement;
     KEY_TO_ELEMENT.set(this.key, nativeElement);
     NODE_TO_ELEMENT.set(this.cNode, nativeElement);
     ELEMENT_TO_NODE.set(nativeElement, this.cNode);
@@ -68,13 +77,12 @@ export abstract class BaseTextComponent implements OnDestroy {
     NODE_TO_ELEMENT.delete(this.cNode);
   }
 
-  /**
-   * componentPortal 循环渲染优化
-   * @param index
-   * @param item
-   */
   trackBy(index, item: ComponentPortal<any>) {
-    return this.key?.id || index;
+    return index;
+  }
+
+  ngAfterViewChecked() {
+    this.init();
   }
 
   ngOnDestroy() {

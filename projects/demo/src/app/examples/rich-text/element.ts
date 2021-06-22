@@ -1,14 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit
-} from '@angular/core';
-import {
-  BaseElementComponent,
-  KEY_TOKEN,
-  Key, NsEditorService, NsDepsService
-} from 'slate-ng';
+import {ChangeDetectionStrategy, Component, ElementRef, Inject} from '@angular/core';
+import {BaseElementComponent, Key, KEY_TOKEN, NsDepsService, NsEditorService} from 'slate-ng';
 
 
 @Component({
@@ -227,6 +218,29 @@ export class NumberedListComponent extends BaseElementComponent {
   }
 }
 
+@Component({
+  selector: 'p[default-element]',
+  template: `
+    <ng-container *ngFor="let portal of portals; trackBy: trackBy">
+      <ng-template [cdkPortalOutlet]="portal"></ng-template>
+    </ng-container>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DefaultComponent extends BaseElementComponent {
+  static type = 'paragraph';
+
+  constructor(
+    @Inject(KEY_TOKEN) readonly key: Key,
+    public deps: NsDepsService,
+    public editorService: NsEditorService,
+    public elementRef: ElementRef,
+  ) {
+    super(key, deps, editorService, elementRef);
+  }
+}
+
+
 export const CustomComponents = [
   NumberedListComponent,
   ListItemComponent,
@@ -237,5 +251,6 @@ export const CustomComponents = [
   HeadingFiveComponent,
   HeadingSixComponent,
   BulletedListComponent,
-  BlockQuoteComponent
+  BlockQuoteComponent,
+  DefaultComponent
 ];

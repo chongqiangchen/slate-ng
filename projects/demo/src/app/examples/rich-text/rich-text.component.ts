@@ -24,12 +24,7 @@ const LIST_TYPES = ['numbered-list', 'bulleted-list'];
   providers: [RegistryNsElement, NsDepsService, NsEditorService]
 })
 export class RichTextComponent implements OnInit {
-
-  constructor(
-    private customElement: RegistryNsElement,
-    private cdr: ChangeDetectorRef
-  ) {
-  }
+  placeholder = 'Enter some rich text...';
   initialValue: any[] = [
     {
       type: 'paragraph',
@@ -55,6 +50,13 @@ export class RichTextComponent implements OnInit {
     }
   ];
   editor = withHistory(withAngular(createEditor()));
+
+  constructor(
+    private customElement: RegistryNsElement,
+    private cdr: ChangeDetectorRef
+  ) {
+  }
+
   selectChange = _debounce(() => {
     this.cdr.detectChanges();
   }, 300);

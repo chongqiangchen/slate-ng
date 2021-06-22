@@ -177,6 +177,14 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
     if (changes.autoFocus?.currentValue !== changes.autoFocus?.previousValue) {
       this.elementRef.nativeElement.focus();
     }
+
+    if (!changes.value?.isFirstChange() && (changes.value?.currentValue !== changes.value?.previousValue)) {
+      this.editor.insertFragment(changes.value.currentValue);
+    }
+
+    if (!changes.placeholder?.isFirstChange() && (changes.placeholder?.currentValue !== changes.placeholder?.previousValue)) {
+      this.editorService.editor.onChange();
+    }
   }
 
   ngAfterContentChecked() {
@@ -525,7 +533,6 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       !isEventHandled(event, this.nsOnCompositionUpdate)
     ) {
       this.isComposing = true;
-      // this.placeholder = '';
     }
   }
 
