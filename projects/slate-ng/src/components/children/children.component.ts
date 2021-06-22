@@ -7,7 +7,7 @@ import {
   OnInit, SimpleChanges,
   ViewEncapsulation
 } from '@angular/core';
-import {Ancestor, BaseRange, Descendant, Editor, Element, Node, NodeEntry, Range} from 'slate';
+import {Ancestor, BaseRange, Descendant, Editor, Element, Node, NodeEntry, Range, Text} from 'slate';
 import {ElementComponent} from '../element/element.component';
 import {TextComponent} from '../text/text.component';
 import {ComponentPortal} from '@angular/cdk/portal';
@@ -194,6 +194,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
             children.push(prePortal);
             continue;
           } else if (
+            Element.isElement(cNode.children[0]) &&
             (preNode as any).type === (cNode as any).type &&
             prePortal.component === curElementComp
           ) {
@@ -204,17 +205,12 @@ export class ChildrenComponent implements OnInit, OnChanges {
         } else {
           const preParentNode = preDeps.injector.get(PARENT_NODE_TOKEN);
           const preIsLast = preDeps.injector.get(IS_LAST_TOKEN);
-          const curTextComp = this.customElementService.get('text')?.comp || TextComponent;
           if (
             preParentNode === pNode &&
             preIsLast === isLast &&
             preNode === cNode &&
             isDecoratorRangeListEqual(preDecorations, ds)
           ) {
-            children.push(prePortal);
-            continue;
-          } else if (prePortal.component === curTextComp) {
-            this.deps.set(key, this.customElementService.getInjector(providers, this.injector));
             children.push(prePortal);
             continue;
           }

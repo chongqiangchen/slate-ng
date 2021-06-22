@@ -5,7 +5,7 @@ import {
   ElementRef,
   HostBinding,
   Inject,
-  OnDestroy,
+  OnDestroy, OnInit,
 } from '@angular/core';
 import { CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, KEY_TOKEN } from './token';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -20,7 +20,7 @@ import { NsEditorService } from '../../services/ns-editor.service';
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class BaseElementComponent implements OnDestroy, AfterViewChecked {
+export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterViewChecked {
   destroy$$ = new Subject();
 
   @HostBinding('attr.data-slate-node') dataSlateNode = undefined;
@@ -50,6 +50,10 @@ export abstract class BaseElementComponent implements OnDestroy, AfterViewChecke
   ) {
   }
 
+  ngOnInit() {
+    this.useHostAttrs() && this.updateAttrs();
+  }
+
   ngAfterViewChecked() {
     this.init();
   }
@@ -68,7 +72,6 @@ export abstract class BaseElementComponent implements OnDestroy, AfterViewChecke
     KEY_TO_ELEMENT.set(this.key, nativeElement);
     NODE_TO_ELEMENT.set(this.cNode, nativeElement);
     ELEMENT_TO_NODE.set(nativeElement, this.cNode);
-    this.useHostAttrs() && this.updateAttrs();
   }
 
   /**

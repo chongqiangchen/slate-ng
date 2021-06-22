@@ -34,10 +34,5 @@ export class ElementComponent extends BaseElementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.deps.watch(this.key)
-      .pipe(takeUntil(this.destroy$$), startWith(null))
-      .subscribe(res => {
-        this.cdr.markForCheck();
-      });
   }
 }
