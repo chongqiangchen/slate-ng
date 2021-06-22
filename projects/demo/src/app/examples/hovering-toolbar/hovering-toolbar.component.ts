@@ -90,6 +90,7 @@ export class HoveringToolbarComponent implements OnInit {
     this.overlayRef = overlayRef;
     const comPortal = new ComponentPortal(PortalComponent, null, Injector.create([], this.injector));
     overlayRef.attach(comPortal);
+    this.cdr.detectChanges();
   }
 
   private getPosition() {
@@ -100,8 +101,8 @@ export class HoveringToolbarComponent implements OnInit {
       .connectedTo(this.nsEditor,
         { originX: 'start', originY: 'top' },
         { overlayX: 'start', overlayY: 'bottom' })
-      .withOffsetX(rect.x)
-      .withOffsetY(rect.y);
+      .withOffsetX(rect.x - document.body.clientWidth / 4 + 68 / 2)
+      .withOffsetY(rect.y - 92 - 36 / 2 - 10);
   }
 
   private toggleFormat(format) {
