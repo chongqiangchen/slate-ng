@@ -3,6 +3,10 @@
     {
       "filename": "./projects/slate-ng/package.json",
       "type": "json"
+    },
+    {
+          "filename": "./package.json",
+          "type": "json"
     }
   ]
 }

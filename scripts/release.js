@@ -23,6 +23,7 @@ const release = async () => {
       choices: [...releaseChoices],
     },
   ]);
+  console.log(release);
   // 优先自定义版本
   const version = versions[release];
   // 二次确认发布
