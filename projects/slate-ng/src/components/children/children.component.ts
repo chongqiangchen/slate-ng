@@ -15,7 +15,7 @@ import {
   CHILD_PORTALS_TOKEN,
   CURRENT_NODE_TOKEN,
   DECORATIONS_TOKEN,
-  IS_LAST_TOKEN,
+  IS_LAST_TOKEN, IS_SELECTION_TOKEN,
   KEY_TOKEN,
   NODE_INDEX_TOKEN,
   PARENT_NODE_TOKEN,
@@ -174,6 +174,10 @@ export class ChildrenComponent implements OnInit, OnChanges {
         {
           provide: SELECTION_TOKEN,
           useValue: sel
+        },
+        {
+          provide: IS_SELECTION_TOKEN,
+          useValue: !!sel
         }
       ];
 
