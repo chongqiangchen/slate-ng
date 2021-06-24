@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://github.com/chongqiangchen/slate-ng/compare/v0.1.0...v0.1.1) (2021-06-24)
+
+
+### Features
+
+* **demo:** add images demo ([f19fd0e](https://github.com/chongqiangchen/slate-ng/commit/f19fd0e9465064b093204848a84596576bea77e6))
+
+
+### Bug Fixes
+
+* **slate-element-ng-table:** delete init in ngOnInit ([20d75ff](https://github.com/chongqiangchen/slate-ng/commit/20d75ffb4b42b2b4a69dd58278c16d279e6db20a))
+* **slate-ng:** Fix ELEMENT_TO_NODE binding error when not use host attrs ([3a97455](https://github.com/chongqiangchen/slate-ng/commit/3a974557ba48112be3dcbd141c9db20614c32b31))
+* **slate-ng:** fix input chinese placeholder dont hide error and fix drag drop error ([5318184](https://github.com/chongqiangchen/slate-ng/commit/5318184e46c1cd21203ff55d8c06e952b63b69d1))
+
 ### [0.0.1](https://github.com/chongqiangchen/slate-ng/compare/v0.1.0...v0.0.1) (2021-06-24)
 
 
