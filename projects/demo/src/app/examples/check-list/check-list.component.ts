@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { createEditor, Element as SlateElement, Editor, Range, Point, Transforms, Descendant } from 'slate';
-import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng-view';
+import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng';
 import { withHistory } from 'slate-history';
 import { CheckListItemComponent } from './check-list-item/check-list-item.component';
 

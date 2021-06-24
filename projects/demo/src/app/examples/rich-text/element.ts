@@ -1,20 +1,9 @@
-import {
-  AfterContentChecked,
-  AfterViewInit,
-  Component,
-  ElementRef,
-  Inject,
-  OnInit
-} from "@angular/core";
-import {
-  BaseElementComponent,
-  KEY_TOKEN,
-  Key, NsEditorService, NsDepsService
-} from "slate-ng-view";
+import {ChangeDetectionStrategy, Component, ElementRef, Inject} from '@angular/core';
+import {BaseElementComponent, Key, KEY_TOKEN, NsDepsService, NsEditorService} from 'slate-ng';
 
 
 @Component({
-  selector: "blockquote[block-quote]",
+  selector: 'blockquote[block-quote]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -22,7 +11,7 @@ import {
   `
 })
 export class BlockQuoteComponent extends BaseElementComponent {
-  static type = "block-quote";
+  static type = 'block-quote';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -35,7 +24,7 @@ export class BlockQuoteComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "ul[bulleted-list]",
+  selector: 'ul[bulleted-list]',
   template: `
     <nz-alert nzType="success" [nzMessage]="message"></nz-alert>
     <ng-template #message>
@@ -46,7 +35,7 @@ export class BlockQuoteComponent extends BaseElementComponent {
   `
 })
 export class BulletedListComponent extends BaseElementComponent {
-  static type = "bulleted-list";
+  static type = 'bulleted-list';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -59,7 +48,7 @@ export class BulletedListComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "h1[heading-one]",
+  selector: 'h1[heading-one]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -67,7 +56,7 @@ export class BulletedListComponent extends BaseElementComponent {
   `
 })
 export class HeadingOneComponent extends BaseElementComponent {
-  static type = "heading-one";
+  static type = 'heading-one';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -80,7 +69,7 @@ export class HeadingOneComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "h2[heading-two]",
+  selector: 'h2[heading-two]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -88,7 +77,7 @@ export class HeadingOneComponent extends BaseElementComponent {
   `
 })
 export class HeadingTwoComponent extends BaseElementComponent {
-  static type = "heading-two";
+  static type = 'heading-two';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -101,7 +90,7 @@ export class HeadingTwoComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "h3[heading-two]",
+  selector: 'h3[heading-two]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -109,7 +98,7 @@ export class HeadingTwoComponent extends BaseElementComponent {
   `
 })
 export class HeadingThreeComponent extends BaseElementComponent {
-  static type = "heading-three";
+  static type = 'heading-three';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -122,7 +111,7 @@ export class HeadingThreeComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "h4[heading-two]",
+  selector: 'h4[heading-two]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -130,7 +119,7 @@ export class HeadingThreeComponent extends BaseElementComponent {
   `
 })
 export class HeadingFourComponent extends BaseElementComponent {
-  static type = "heading-four";
+  static type = 'heading-four';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -143,7 +132,7 @@ export class HeadingFourComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "h5[heading-two]",
+  selector: 'h5[heading-two]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -151,7 +140,7 @@ export class HeadingFourComponent extends BaseElementComponent {
   `
 })
 export class HeadingFiveComponent extends BaseElementComponent {
-  static type = "heading-five";
+  static type = 'heading-five';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -164,7 +153,7 @@ export class HeadingFiveComponent extends BaseElementComponent {
 }
 
 @Component({
-  selector: "h6[heading-two]",
+  selector: 'h6[heading-two]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -172,7 +161,7 @@ export class HeadingFiveComponent extends BaseElementComponent {
   `
 })
 export class HeadingSixComponent extends BaseElementComponent {
-  static type = "heading-six";
+  static type = 'heading-six';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -186,7 +175,7 @@ export class HeadingSixComponent extends BaseElementComponent {
 
 
 @Component({
-  selector: "li[list-item]",
+  selector: 'li[list-item]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -194,7 +183,7 @@ export class HeadingSixComponent extends BaseElementComponent {
   `
 })
 export class ListItemComponent extends BaseElementComponent {
-  static type = "list-item";
+  static type = 'list-item';
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -208,7 +197,7 @@ export class ListItemComponent extends BaseElementComponent {
 
 
 @Component({
-  selector: "ol[numbered-list]",
+  selector: 'ol[numbered-list]',
   template: `
     <ng-container *ngFor="let portal of portals; trackBy: trackBy">
       <ng-template [cdkPortalOutlet]="portal"></ng-template>
@@ -216,7 +205,7 @@ export class ListItemComponent extends BaseElementComponent {
   `
 })
 export class NumberedListComponent extends BaseElementComponent {
-  static type = "numbered-list";
+  static type = 'numbered-list';
   useHostBinding = false;
 
   constructor(
@@ -229,6 +218,29 @@ export class NumberedListComponent extends BaseElementComponent {
   }
 }
 
+@Component({
+  selector: 'p[default-element]',
+  template: `
+    <ng-container *ngFor="let portal of portals; trackBy: trackBy">
+      <ng-template [cdkPortalOutlet]="portal"></ng-template>
+    </ng-container>
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class DefaultComponent extends BaseElementComponent {
+  static type = 'paragraph';
+
+  constructor(
+    @Inject(KEY_TOKEN) readonly key: Key,
+    public deps: NsDepsService,
+    public editorService: NsEditorService,
+    public elementRef: ElementRef,
+  ) {
+    super(key, deps, editorService, elementRef);
+  }
+}
+
+
 export const CustomComponents = [
   NumberedListComponent,
   ListItemComponent,
@@ -239,5 +251,6 @@ export const CustomComponents = [
   HeadingFiveComponent,
   HeadingSixComponent,
   BulletedListComponent,
-  BlockQuoteComponent
+  BlockQuoteComponent,
+  DefaultComponent
 ];

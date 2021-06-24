@@ -16,11 +16,19 @@
       "dom"
     ],
     "paths": {
-      "slate-ng-view": [
-        "dist/slate-ng-view/slate-ng-view",
-        "dist/slate-ng-view"
+      "slate-ng": [
+        "dist/slate-ng/slate-ng",
+        "dist/slate-ng"
+      ],
+      "slate-ng-element-table": [
+        "dist/slate-ng-element-table/slate-ng-element-table",
+        "dist/slate-ng-element-table"
       ]
     }
   },
-  "references": [{ "path": "../slate" }]
+  "references": [
+    {
+      "path": "../slate"
+    }
+  ]
 }

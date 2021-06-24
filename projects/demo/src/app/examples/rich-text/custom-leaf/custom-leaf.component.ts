@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseLeafComponent } from 'slate-ng-view';
-import { LEAF_CHILD_PORTAL_TOKEN, LEAF_TOKEN } from 'slate-ng-view/components/element/token';
+import { BaseLeafComponent } from 'slate-ng';
+import { LEAF_CHILD_PORTAL_TOKEN, LEAF_TOKEN } from 'slate-ng/components/element/token';
 import { ComponentPortal } from '@angular/cdk/portal';
 
 export class Node {

@@ -1,6 +1,6 @@
 import { Component, HostBinding, Inject, OnInit } from "@angular/core";
 import { ComponentPortal } from "@angular/cdk/portal";
-import { BaseLeafComponent, LEAF_CHILD_PORTAL_TOKEN, LEAF_TOKEN } from "slate-ng-view";
+import { BaseLeafComponent, LEAF_CHILD_PORTAL_TOKEN, LEAF_TOKEN } from "slate-ng";
 
 
 @Component({

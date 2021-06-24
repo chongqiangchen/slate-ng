@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {createEditor, Editor, Element as SlateElement, Point, Range, Transforms} from 'slate';
 import {withHistory} from 'slate-history';
-import {NsDepsService, NsEditorService, RegistryNsElement, withAngular} from 'slate-ng-view';
+import {NsDepsService, NsEditorService, RegistryNsElement, withAngular} from 'slate-ng';
 import {CustomComponents} from '../rich-text/element';
 import {BulletedListElement} from '../../../../custom-types';
 

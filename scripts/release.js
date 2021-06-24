@@ -1,8 +1,10 @@
 const { execSync } = require('child_process');
 const semver = require('semver');
 const inquirer = require('inquirer');
+const fs = require('fs-extra');
+const path = require('path');
 
-const currentVersion = require('../projects/slate-ng-view/package.json').version;
+const currentVersion = require('../projects/slate-ng/package.json').version;
 
 const release = async () => {
   console.log(`Current easy cli version is ${currentVersion}`);
@@ -23,6 +25,7 @@ const release = async () => {
       choices: [...releaseChoices],
     },
   ]);
+  console.log(release);
   // 优先自定义版本
   const version = versions[release];
   // 二次确认发布
@@ -37,6 +40,8 @@ const release = async () => {
     execSync(`standard-version -r ${release}`, {
       stdio: 'inherit',
     });
+
+    // fs.copySync(path.resolve(__dirname, '../CHANGELOG.md'), path.resolve(__dirname, '../projects/slate-ng/CHANGELOG.md'));
   }
 };
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng-view';
+import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng';
 import { createEditor } from 'slate';
 import { VideoElementComponent } from './video-element/video-element.component';
 

@@ -9,7 +9,7 @@ import {
   ViewChild,
   ElementRef, AfterViewInit, ComponentFactoryResolver, ApplicationRef, Injector, ViewContainerRef
 } from '@angular/core';
-import { EditableComponent } from 'slate-ng-view';
+import { EditableComponent } from 'slate-ng';
 import { DomPortalOutlet, TemplatePortal } from '@angular/cdk/portal';
 
 @Component({

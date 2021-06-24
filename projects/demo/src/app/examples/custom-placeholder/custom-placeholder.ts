@@ -1,5 +1,5 @@
 import { Component, Inject, Injector } from '@angular/core';
-import { BasePlaceholderComponent, PLACEHOLDER_CHILDREN_TOKEN } from 'slate-ng-view';
+import { BasePlaceholderComponent, PLACEHOLDER_CHILDREN_TOKEN } from 'slate-ng';
 
 
 @Component(

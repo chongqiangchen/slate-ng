@@ -1,17 +1,19 @@
 {
   "name": "slate-ng",
-  "version": "0.0.0",
+  "version": "0.1.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-lib:prod": "ng build --prod --aot",
+    "build-lib:prod": "ng build --prod",
     "build-site:prod": "ng build demo --base-href /slate-ng/ --prod --aot --build-optimizer",
+    "build-plugin-table:prod": "ng build slate-ng-element-table --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "commit": "npx git-cz",
-    "release": "node ./scripts/release.js"
+    "release": "node ./scripts/release.js && yarn build-lib:prod && npm publish ./dist/slate-ng",
+    "release-plugin-table": "yarn build-plugin-table:prod && node ./scripts/build-slate-ng-element-table.js && npm publish ./dist/slate-ng-element-table"
   },
   "private": true,
   "dependencies": {
@@ -37,7 +39,8 @@
     "slate-history": "^0.62.0",
     "slate-hyperscript": "^0.62.0",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.2"
+    "zone.js": "~0.10.2",
+    "is-url": "^1.2.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1002.3",
@@ -48,7 +51,9 @@
     "@types/lodash": "^4.14.149",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
-    "simple-git-hooks": ">=2.0.3",
+    "fs-extra": "^10.0.0",
+    "glob": "^7.1.7",
+    "husky": "^6.0.0",
     "inquirer": "^8.1.1",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
@@ -69,11 +74,13 @@
   "peerDependencies": {
     "slate": ">=0.55.0"
   },
-  "simple-git-hooks": {
-    "pre-commit": "yarn lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
-    "**/*.{ts}": [
+    "*.{ts}": [
       "yarn lint --fix"
     ]
   }

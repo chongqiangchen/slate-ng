@@ -6,7 +6,7 @@ import 'prismjs/components/prism-sql';
 import 'prismjs/components/prism-java';
 import { Text, createEditor, Element as SlateElement, Descendant } from 'slate';
 import { withHistory } from 'slate-history';
-import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng-view';
+import { RegistryNsElement, NsEditorService, withAngular, NsDepsService } from 'slate-ng';
 import { LeafComponent } from './custom-leaf/custom-leaf.component';
 
 @Component({

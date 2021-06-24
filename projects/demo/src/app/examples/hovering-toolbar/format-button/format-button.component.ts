@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Editor, Text, Transforms } from "slate";
-import { NsEditorService } from "slate-ng-view";
+import { Component, Input, OnInit } from '@angular/core';
+import { Editor, Text, Transforms } from 'slate';
+import { NsEditorService } from 'slate-ng';
 
 @Component({
   selector: 'app-format-button',
@@ -20,7 +20,7 @@ export class FormatButtonComponent implements OnInit {
 
   handle($event: any) {
     $event.preventDefault();
-    this.toggleFormat()
+    this.toggleFormat();
   }
 
   private toggleFormat() {
@@ -29,7 +29,7 @@ export class FormatButtonComponent implements OnInit {
       this.editorService.editor,
       { [this.format]: isActive ? null : true },
       { match: Text.isText, split: true }
-    )
+    );
   }
 
   isFormatActive() {
@@ -37,8 +37,8 @@ export class FormatButtonComponent implements OnInit {
     const [match] = Editor.nodes(editor, {
       match: n => n[this.format] === true,
       mode: 'all',
-    })
-    return !!match
+    });
+    return !!match;
   }
 }
 

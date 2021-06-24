@@ -1,0 +1,14 @@
+{
+  "name": "slate-ng-element-table",
+  "version": "0.1.0",
+  "peerDependencies": {
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.2.4",
+    "@angular/cdk": "^10.2.4",
+    "slate-ng": "~0.0.2",
+    "slate": ">=0.55.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { BasePlaceholderComponent } from "slate-ng-view";
-import { PLACEHOLDER_CHILDREN_TOKEN } from "slate-ng-view/components/element/token";
+import { Component, Inject, OnInit } from '@angular/core';
+import {BasePlaceholderComponent, PLACEHOLDER_CHILDREN_TOKEN} from 'slate-ng';
 
 @Component({
   selector: 'app-placeholder',
@@ -13,7 +12,7 @@ export class PlaceholderComponent extends BasePlaceholderComponent implements On
   constructor(
     @Inject(PLACEHOLDER_CHILDREN_TOKEN) readonly children: any
   ) {
-    super()
+    super();
   }
 
   ngOnInit(): void {

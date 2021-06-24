@@ -8,7 +8,7 @@ import {
   BaseEditor,
 } from 'slate'
 import { HistoryEditor } from 'slate-history'
-import { AngularEditor } from "slate-ng-view";
+import { AngularEditor } from "slate-ng";
 
 export type BlockQuoteElement = { type: 'block-quote'; children: Descendant[] }
 
