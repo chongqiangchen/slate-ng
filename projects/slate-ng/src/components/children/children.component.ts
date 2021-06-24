@@ -213,7 +213,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
             children.push(prePortal);
             continue;
           } else if (
-            Element.isElement(cNode.children[0]) &&
+            (Element.isElement(cNode.children[0]) || Editor.isVoid(this.editorService.editor, cNode)) &&
             (preNode as any).type === (cNode as any).type &&
             prePortal.component === curElementComp
           ) {
