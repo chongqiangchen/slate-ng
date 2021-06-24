@@ -34,7 +34,6 @@ export class SlateNgElementTableRow extends BaseElementComponent implements OnIn
   }
 
   ngOnInit() {
-    this.init();
     this.watchDeps();
   }
 }

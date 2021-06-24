@@ -33,7 +33,6 @@ export class SlateNgElementTableCell extends BaseElementComponent implements OnI
   }
 
   ngOnInit() {
-    this.init();
     this.watchDeps();
   }
 }

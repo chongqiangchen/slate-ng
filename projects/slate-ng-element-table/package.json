@@ -1,6 +1,6 @@
 {
   "name": "slate-ng-element-table",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4",
