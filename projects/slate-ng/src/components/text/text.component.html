@@ -1,5 +1,19 @@
-<ng-container *ngFor="let leafPortal of leafPortals">
-  <ng-template [cdkPortalOutlet]="leafPortal"></ng-template>
-</ng-container>
+<span #text *ngIf="pNodeIsInline" [attr.data-slate-node]="'text'">
+  <ng-container *ngFor="let leafPortal of leafPortals">
+    <ng-template [cdkPortalOutlet]="leafPortal"></ng-template>
+  </ng-container>
+</span>
+
+<div
+  #text
+  *ngIf="!pNodeIsInline" [attr.data-slate-spacer]="true"
+  style="height: 0px; color: transparent; outline: none; position: absolute;"
+>
+  <span [attr.data-slate-node]="'text'">
+    <ng-container *ngFor="let leafPortal of leafPortals">
+      <ng-template [cdkPortalOutlet]="leafPortal"></ng-template>
+    </ng-container>
+  </span>
+</div>
 
 

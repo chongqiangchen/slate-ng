@@ -1,12 +1,11 @@
 import {
   AfterViewChecked,
   ChangeDetectorRef,
-  ComponentRef,
   Directive,
   ElementRef,
   Inject,
   OnDestroy,
-  ViewChildren
+  ViewChild,
 } from '@angular/core';
 import {
   CHILD_PORTALS_TOKEN,
@@ -16,7 +15,7 @@ import {
   KEY_TOKEN, LEAF_TOKEN,
   PARENT_NODE_TOKEN
 } from '../element/token';
-import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Key } from '../../utils/key';
 import { ELEMENT_TO_NODE, KEY_TO_ELEMENT, NODE_TO_ELEMENT } from '../../utils/weak-maps';
 import { NsDepsService } from '../../services/ns-deps.service';
@@ -24,7 +23,7 @@ import { NsDepsService } from '../../services/ns-deps.service';
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
 export abstract class BaseTextComponent implements AfterViewChecked ,OnDestroy {
-  @ViewChildren(CdkPortalOutlet) slateChildrenOutlets: CdkPortalOutlet[];
+  @ViewChild('text') textRef: ElementRef;
 
   get depInjector() {
     return this.deps.get(this.key).injector;
@@ -63,7 +62,7 @@ export abstract class BaseTextComponent implements AfterViewChecked ,OnDestroy {
    * @param el 该组件ElementRef
    */
   init() {
-    const nativeElement = this.elementRef.nativeElement;
+    const nativeElement = this.textRef.nativeElement || this.elementRef.nativeElement;
     KEY_TO_ELEMENT.set(this.key, nativeElement);
     NODE_TO_ELEMENT.set(this.cNode, nativeElement);
     ELEMENT_TO_NODE.set(nativeElement, this.cNode);

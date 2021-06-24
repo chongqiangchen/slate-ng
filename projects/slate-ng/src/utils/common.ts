@@ -1,6 +1,6 @@
-import { AngularEditor } from "../plugins/angular-editor";
-import { DOMNode, isDOMNode } from "./dom";
-import { Editor } from "slate";
+import { AngularEditor } from '../plugins/angular-editor';
+import { DOMNode, isDOMNode } from './dom';
+import { Editor } from 'slate';
 
 /**
  * Check if the target is in the editor.
@@ -37,9 +37,9 @@ export const isTargetInsideVoid = (
   target: EventTarget | null
 ): boolean => {
   const slateNode =
-    hasTarget(editor, target) && AngularEditor.toSlateNode(editor, target)
-  return Editor.isVoid(editor, slateNode)
-}
+    hasTarget(editor, target) && AngularEditor.toSlateNode(editor, target);
+  return Editor.isVoid(editor, slateNode);
+};
 
 
 /**

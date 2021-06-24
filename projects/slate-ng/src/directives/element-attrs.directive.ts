@@ -32,7 +32,6 @@ export class ElementAttrsDirective implements OnInit {
 
   ngOnInit() {
     const editor = this.editorService.editor;
-    console.log(editor);
     const isInline = editor.isInline(this.cNode);
     isInline && (this.dataSlateInline = true);
 

@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostBinding,
+  Inject,
+  OnInit,
+  ViewEncapsulation
+} from '@angular/core';
 import {
   AngularEditor,
   BaseElementComponent,
@@ -15,11 +23,11 @@ import {
     <div [attr.contentEditable]="false">
       <img
         [src]="cNode.url"
-        [ngStyle]="{
+        [style]="{
             display: 'block',
             'max-width': '100%',
-             'max-height': '20em',
-             'box-shadow': selected && focused ? '0 0 0 3px #B4D5FF' : 'none'
+            'max-height': '20em',
+            'box-shadow': selected && focused ? '0 0 0 3px #B4D5FF' : 'none'
         }"
       />
     </div>
@@ -49,6 +57,7 @@ export class ImageElementComponent extends BaseElementComponent implements OnIni
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
     this.watchDeps();
   }
 

@@ -1,5 +1,5 @@
 import {
-  AfterViewChecked,
+  AfterViewChecked, AfterViewInit,
   ChangeDetectorRef,
   Directive,
   ElementRef,
@@ -7,7 +7,7 @@ import {
   Inject,
   OnDestroy, OnInit, ViewChild,
 } from '@angular/core';
-import { CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, KEY_TOKEN } from './token';
+import {CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, IS_READONLY_TOKEN, KEY_TOKEN} from './token';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Key } from '../../utils/key';
 import { ELEMENT_TO_NODE, KEY_TO_ELEMENT, NODE_TO_ELEMENT } from '../../utils/weak-maps';
@@ -21,7 +21,7 @@ import {ElementAttrsDirective} from "../../directives/element-attrs.directive";
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
-export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterViewChecked {
+export abstract class BaseElementComponent implements OnDestroy, AfterViewChecked, OnInit {
   destroy$$ = new Subject();
 
   @HostBinding('attr.data-slate-node') dataSlateNode = undefined;
@@ -53,8 +53,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterVi
   }
 
   ngOnInit() {
-    this.init();
-    this.useHostAttrs() && this.updateAttrs();
+    this.useHostAttrs() && this.updateAttrs(); // must update attrs in there
   }
 
   ngAfterViewChecked() {
@@ -115,6 +114,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterVi
     this.dataSlateNode = 'element';
     const editor = this.editorService.editor;
     const isInline = editor.isInline(this.cNode);
+    const isReadOnly = this.injector.get(IS_READONLY_TOKEN);
     isInline && (this.dataSlateInline = true);
 
     if (!isInline && Editor.hasInlines(editor, this.cNode)) {
@@ -128,7 +128,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterVi
     if (Editor.isVoid(editor, this.cNode)) {
       this.dataSlateVoid = true;
 
-      if (isInline) {
+      if (!isReadOnly && isInline) {
         this.contentEditable = false;
       }
     }

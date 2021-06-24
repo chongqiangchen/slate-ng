@@ -15,7 +15,7 @@ import {
   CHILD_PORTALS_TOKEN,
   CURRENT_NODE_TOKEN,
   DECORATIONS_TOKEN,
-  IS_LAST_TOKEN, IS_SELECTION_TOKEN,
+  IS_LAST_TOKEN, IS_READONLY_TOKEN, IS_SELECTION_TOKEN,
   KEY_TOKEN,
   NODE_INDEX_TOKEN,
   PARENT_NODE_TOKEN,
@@ -23,7 +23,7 @@ import {
 } from '../element/token';
 import {AngularEditor} from '../../plugins/angular-editor';
 import {
-  EDITOR_TO_ON_CHANGE,
+  EDITOR_TO_ON_CHANGE, IS_READ_ONLY,
   KEY_TO_PORTAL,
   NODE_TO_INDEX,
   NODE_TO_PARENT,
@@ -45,6 +45,17 @@ import {NsEditorService} from '../../services/ns-editor.service';
 export class ChildrenComponent implements OnInit, OnChanges {
   @Input() placeholder: string;
   @Input() decorate: (entry: NodeEntry) => Range[];
+
+  get noInputValue() {
+    return this.placeholder &&
+      this.editorService.editor.children.length === 1 &&
+      Array.from(Node.texts(this.editorService.editor)).length === 1 &&
+      Node.string(this.editorService.editor) === '';
+  }
+
+  get isReadOnly() {
+    return IS_READ_ONLY.get(this.editorService.editor);
+  }
 
   showPortals = [];
   decorations: (BaseRange & { placeholder?: string | undefined })[];
@@ -178,6 +189,10 @@ export class ChildrenComponent implements OnInit, OnChanges {
         {
           provide: IS_SELECTION_TOKEN,
           useValue: !!sel
+        },
+        {
+          provide: IS_READONLY_TOKEN,
+          useValue: this.isReadOnly,
         }
       ];
 
@@ -231,12 +246,7 @@ export class ChildrenComponent implements OnInit, OnChanges {
 
   getDecorations(editor) {
     this.decorations = this.decorate([editor, []]);
-    if (
-      this.placeholder &&
-      editor.children.length === 1 &&
-      Array.from(Node.texts(editor)).length === 1 &&
-      Node.string(editor) === ''
-    ) {
+    if (this.noInputValue) {
       const start = Editor.start(editor, []);
       this.decorations.push({
         [PLACEHOLDER_SYMBOL]: true,

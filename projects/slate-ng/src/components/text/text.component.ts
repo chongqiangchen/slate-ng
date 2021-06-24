@@ -20,29 +20,31 @@ import {
   LEAF_TOKEN,
   PARENT_NODE_TOKEN
 } from '../element/token';
-import { Key } from '../../utils/key';
+import {Key} from '../../utils/key';
 import {Editor, Text as SlateText, Text} from 'slate';
-import { LeafComponent } from './leaf/leaf.component';
-import { LeafChildComponent } from './leaf-child/leaf-child.component';
-import { BaseTextComponent } from './base-text';
-import { NsDepsService } from '../../services/ns-deps.service';
-import { RegistryNsElement } from '../../services/registry-ns-element.service';
-import {delay, startWith} from "rxjs/operators";
+import {LeafComponent} from './leaf/leaf.component';
+import {LeafChildComponent} from './leaf-child/leaf-child.component';
+import {BaseTextComponent} from './base-text';
+import {NsDepsService} from '../../services/ns-deps.service';
+import {RegistryNsElement} from '../../services/registry-ns-element.service';
+import {NsEditorService} from "../../services/ns-editor.service";
 
 @Component({
-  selector: 'span[ns-text]',
+  selector: 'ns-text',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css'],
-  host: {
-    'data-slate-node': 'text'
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class TextComponent extends BaseTextComponent implements OnInit, OnDestroy {
+export class TextComponent extends BaseTextComponent implements OnInit {
   static type = 'text';
   leaves: SlateText[] = [];
   leafPortals = [];
+  pNodeIsInline = true;
+
+  get pNodeIsVoid() {
+    return Editor.isVoid(this.editorService.editor, this.pNode);
+  }
 
   constructor(
     @Inject(KEY_TOKEN) readonly key: Key,
@@ -50,18 +52,18 @@ export class TextComponent extends BaseTextComponent implements OnInit, OnDestro
     public elementRef: ElementRef,
     public cdr: ChangeDetectorRef,
     private customService: RegistryNsElement,
-    private injector: Injector
+    private injector: Injector,
+    private editorService: NsEditorService
   ) {
     super(key, deps, elementRef, cdr);
   }
 
   ngOnInit(): void {
-    this.deps.watch(this.key).pipe(startWith(null)).subscribe(res => {
-      this.leafPortals = [];
-      this.leaves = SlateText.decorations(this.cNode, this.decorations);
-      this.getLeafPortals();
-      this.cdr.markForCheck();
-    });
+    if (this.pNodeIsVoid) {
+      this.pNodeIsInline = this.editorService.editor.isInline(this.pNode);
+    }
+    this.leaves = SlateText.decorations(this.cNode, this.pNodeIsVoid ? [] : this.decorations);
+    this.getLeafPortals();
   }
 
   getLeafPortals() {
@@ -74,7 +76,7 @@ export class TextComponent extends BaseTextComponent implements OnInit, OnDestro
     const providers: StaticProvider[] = [
       {
         provide: IS_LAST_TOKEN,
-        useValue: this.isLast
+        useValue: this.pNodeIsVoid ? false : this.isLast
       },
       {
         provide: CURRENT_NODE_TOKEN,
@@ -95,9 +97,5 @@ export class TextComponent extends BaseTextComponent implements OnInit, OnDestro
       useValue: leafChildPortal
     });
     return this.customService.getComponentPortal('leaf', leafProviders, this.injector, LeafComponent);
-  }
-
-  ngOnDestroy() {
-    this.destroy();
   }
 }

@@ -11,11 +11,11 @@ import {
   Renderer2,
   OnDestroy
 } from '@angular/core';
-import { AngularEditor } from '../../plugins/angular-editor';
-import { Descendant, Editor, Element, Node, NodeEntry, Path, Range, Transforms } from 'slate';
-import { InputBoolean } from '../../utils/convert';
-import { HAS_BEFORE_INPUT_SUPPORT } from '../../polyfills/before-input/before-input-event-plugin';
-import { getDefaultView, isDOMNode, isPlainTextOnlyPaste } from '../../utils/dom';
+import {AngularEditor} from '../../plugins/angular-editor';
+import {Descendant, Editor, Element, Node, NodeEntry, Path, Range, Transforms} from 'slate';
+import {InputBoolean} from '../../utils/convert';
+import {HAS_BEFORE_INPUT_SUPPORT} from '../../polyfills/before-input/before-input-event-plugin';
+import {getDefaultView, isDOMNode, isPlainTextOnlyPaste} from '../../utils/dom';
 import {
   EDITOR_TO_ELEMENT,
   EDITOR_TO_ON_CHANGE,
@@ -25,12 +25,12 @@ import {
 } from '../../utils/weak-maps';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import {IS_CHROME, IS_FIREFOX, IS_SAFARI} from '../../utils/environment';
-import { fromEvent, interval, Subject } from 'rxjs';
-import { takeUntil, throttle } from 'rxjs/operators';
-import { hasEditableTarget, hasTarget, isEventHandled, isTargetInsideVoid } from '../../utils/common';
+import {fromEvent, interval, Subject} from 'rxjs';
+import {takeUntil, throttle} from 'rxjs/operators';
+import {hasEditableTarget, hasTarget, isEventHandled, isTargetInsideVoid} from '../../utils/common';
 import getDirection from 'direction';
 import Hotkeys from '../../utils/hotkeys';
-import { NsEditorService } from '../../services/ns-editor.service';
+import {NsEditorService} from '../../services/ns-editor.service';
 
 
 /**
@@ -80,6 +80,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
   @Input() nsOnCut: (e: ClipboardEvent) => {};
   @Input() nsOnDragOver: (e: DragEvent) => {};
   @Input() nsOnDragStart: (e: DragEvent) => {};
+  @Input() nsOnDragEnd: (e: DragEvent) => {};
   @Input() nsOnDrop: (e: DragEvent) => {};
   @Input() nsOnFocus: (e: FocusEvent) => {};
   @Input() nsOnKeyDown: (e: KeyboardEvent) => {};
@@ -102,6 +103,14 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
   isUpdatingSelection = false;
   latestElement = null;
   destroy$$ = new Subject();
+  isDraggingInternally = false;
+
+  get noInputValue() {
+    return this.placeholder &&
+      this.editor.children.length === 1 &&
+      Array.from(Node.texts(this.editor)).length === 1 &&
+      Node.string(this.editor) === '';
+  }
 
   get hasBeforeInputSupport() {
     return HAS_BEFORE_INPUT_SUPPORT;
@@ -131,7 +140,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
             (value: Event) => {
               return interval(100);
             },
-            { trailing: true, leading: true }
+            {trailing: true, leading: true}
           ),
           takeUntil(this.destroy$$)
         )
@@ -154,12 +163,14 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       this.addEventListener('blur', (event: FocusEvent) => this.onDOMBlur(event));
       this.addEventListener('copy', (event: ClipboardEvent) => this.onDOMCopy(event));
       this.addEventListener('cut', (event: ClipboardEvent) => this.onDOMCut(event));
+      this.addEventListener('dragend', (event: DragEvent) => this.onDOMDragEnd(event));
       this.addEventListener('dragover', (event: DragEvent) => this.onDOMDragOver(event));
       this.addEventListener('dragstart', (event: DragEvent) => this.onDOMDragStart(event));
       this.addEventListener('drop', (event: DragEvent) => this.onDOMDrop(event));
       this.addEventListener('focus', (event: FocusEvent) => this.onDOMFocus(event));
       this.addEventListener('keydown', (event: KeyboardEvent) => this.onDOMKeyDown(event));
       this.addEventListener('paste', (event: ClipboardEvent) => this.onDOMPaste(event));
+      this.addEventListener('input', (event: InputEvent) => this.onDOMInput(event));
     });
   }
 
@@ -193,7 +204,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
 
   toNativeSelection() {
     const editor = this.editor;
-    const { selection } = editor;
+    const {selection} = editor;
     const root = AngularEditor.findDocumentOrShadowRoot(editor);
     const domSelection = root.getSelection();
     if (this.isComposing || !domSelection || !AngularEditor.isFocused(editor)) {
@@ -286,10 +297,15 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
   }
 
   toSlateSelection() {
-    if (!this.readonly && !this.isComposing && !this.isUpdatingSelection) {
+    if (
+      !this.readonly &&
+      !this.isComposing &&
+      !this.isUpdatingSelection &&
+      !this.isDraggingInternally
+    ) {
       const editor = this.editor;
       const root = AngularEditor.findDocumentOrShadowRoot(editor);
-      const { activeElement } = root;
+      const {activeElement} = root;
       const el = AngularEditor.toDOMNode(editor, editor);
       const domSelection = root.getSelection();
       if (activeElement === el) {
@@ -303,7 +319,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         return Transforms.deselect(editor);
       }
 
-      const { anchorNode, focusNode } = domSelection;
+      const {anchorNode, focusNode} = domSelection;
       const anchorNodeSelectable =
         hasEditableTarget(editor, anchorNode) ||
         isTargetInsideVoid(editor, anchorNode);
@@ -356,8 +372,8 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       }
     } else if (HAS_BEFORE_INPUT_SUPPORT) {
       const editor = this.editor;
-      const { selection } = editor;
-      const { inputType: type } = event;
+      const {selection} = editor;
+      const {inputType: type} = event;
       const data = (event as any).dataTransfer || event.data || undefined;
 
       // These two types occur while a user is composing text and can't be
@@ -396,7 +412,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         type.startsWith('delete')
       ) {
         const direction = type.endsWith('Backward') ? 'backward' : 'forward';
-        Editor.deleteFragment(editor, { direction });
+        Editor.deleteFragment(editor, {direction});
         return;
       }
 
@@ -420,38 +436,38 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         }
 
         case 'deleteEntireSoftLine': {
-          Editor.deleteBackward(editor, { unit: 'line' });
-          Editor.deleteForward(editor, { unit: 'line' });
+          Editor.deleteBackward(editor, {unit: 'line'});
+          Editor.deleteForward(editor, {unit: 'line'});
           break;
         }
 
         case 'deleteHardLineBackward': {
-          Editor.deleteBackward(editor, { unit: 'block' });
+          Editor.deleteBackward(editor, {unit: 'block'});
           break;
         }
 
         case 'deleteSoftLineBackward': {
-          Editor.deleteBackward(editor, { unit: 'line' });
+          Editor.deleteBackward(editor, {unit: 'line'});
           break;
         }
 
         case 'deleteHardLineForward': {
-          Editor.deleteForward(editor, { unit: 'block' });
+          Editor.deleteForward(editor, {unit: 'block'});
           break;
         }
 
         case 'deleteSoftLineForward': {
-          Editor.deleteForward(editor, { unit: 'line' });
+          Editor.deleteForward(editor, {unit: 'line'});
           break;
         }
 
         case 'deleteWordBackward': {
-          Editor.deleteBackward(editor, { unit: 'word' });
+          Editor.deleteBackward(editor, {unit: 'word'});
           break;
         }
 
         case 'deleteWordForward': {
-          Editor.deleteForward(editor, { unit: 'word' });
+          Editor.deleteForward(editor, {unit: 'word'});
           break;
         }
 
@@ -501,9 +517,8 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       const start = Editor.start(this.editor, path);
       const end = Editor.end(this.editor, path);
 
-      const startVoid = Editor.void(this.editor, { at: start });
-      const endVoid = Editor.void(this.editor, { at: end });
-
+      const startVoid = Editor.void(this.editor, {at: start});
+      const endVoid = Editor.void(this.editor, {at: end});
       if (
         startVoid &&
         endVoid &&
@@ -520,7 +535,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       hasEditableTarget(this.editor, event.target) &&
       !isEventHandled(event, this.nsOnCompositionStart)
     ) {
-      const { selection } = this.editor;
+      const {selection} = this.editor;
       if (selection && Range.isExpanded(selection)) {
         Editor.deleteFragment(this.editor);
       }
@@ -571,7 +586,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       return;
     }
 
-    const { relatedTarget } = event;
+    const {relatedTarget} = event;
     const el = AngularEditor.toDOMNode(this.editor, this.editor);
 
     // COMPAT: The event should be ignored if the focus is returning
@@ -628,7 +643,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
     ) {
       event.preventDefault();
       AngularEditor.setFragmentData(this.editor, event.clipboardData);
-      const { selection } = this.editor;
+      const {selection} = this.editor;
 
       if (selection) {
         if (Range.isExpanded(selection)) {
@@ -641,6 +656,20 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           }
         }
       }
+    }
+  }
+
+  private onDOMDragEnd(event: DragEvent) {
+    // When dropping on a different droppable element than the current editor,
+    // `onDrop` is not called. So we need to clean up in `onDragEnd` instead.
+    // Note: `onDragEnd` is only called when `onDrop` is not called
+    if (
+      !this.readonly &&
+      this.isDraggingInternally &&
+      hasTarget(this.editor, event.target) &&
+      !isEventHandled(event, this.nsOnDragEnd)
+    ) {
+      this.isDraggingInternally = false;
     }
   }
 
@@ -664,7 +693,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
     ) {
       const node = AngularEditor.toSlateNode(this.editor, event.target);
       const path = AngularEditor.findPath(this.editor, node);
-      const voidMatch = Editor.void(this.editor, { at: path });
+      const voidMatch =
+        Editor.isVoid(this.editor, node) ||
+        Editor.void(this.editor, { at: path, voids: true });
 
       // If starting a drag on a void node, make sure it is selected
       // so that it shows up in the selection's fragment.
@@ -673,29 +704,44 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         Transforms.select(this.editor, range);
       }
 
+      this.isDraggingInternally = true;
+
       AngularEditor.setFragmentData(this.editor, event.dataTransfer);
     }
   }
 
   private onDOMDrop(event: DragEvent) {
     if (
-      hasTarget(this.editor, event.target) &&
       !this.readonly &&
+      hasTarget(this.editor, event.target) &&
       !isEventHandled(event, this.nsOnDrop)
     ) {
-      // COMPAT: Certain browsers don't fire `beforeinput` events at all, and
-      // Chromium browsers don't properly fire them for files being
-      // dropped into a `contenteditable`. (2019/11/26)
-      // https://bugs.chromium.org/p/chromium/issues/detail?id=1028668
-      if (
-        !HAS_BEFORE_INPUT_SUPPORT ||
-        (!IS_SAFARI && event.dataTransfer.files.length > 0)
-      ) {
-        event.preventDefault();
-        const range = AngularEditor.findEventRange(this.editor, event);
-        const data = event.dataTransfer;
-        Transforms.select(this.editor, range);
-        AngularEditor.insertData(this.editor, data);
+      event.preventDefault();
+      const editor = this.editor;
+      // Keep a reference to the dragged range before updating selection
+      const draggedRange = editor.selection;
+
+      // Find the range where the drop happened
+      const range = AngularEditor.findEventRange(editor, event);
+      const data = event.dataTransfer;
+      Transforms.select(editor, range);
+
+      if (this.isDraggingInternally) {
+        if (draggedRange) {
+          Transforms.delete(editor, {
+            at: draggedRange,
+          });
+        }
+
+        this.isDraggingInternally = false;
+      }
+
+      AngularEditor.insertData(editor, data);
+
+      // When dragging from another source into the editor, it's possible
+      // that the current editor does not have focus.
+      if (!AngularEditor.isFocused(editor)) {
+        AngularEditor.focus(editor);
       }
     }
   }
@@ -728,7 +774,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       !isEventHandled(event, this.nsOnKeyDown)
     ) {
       const nativeEvent = event;
-      const { selection } = editor;
+      const {selection} = editor;
 
       const element = editor.children[selection !== null ? selection.focus.path[0] : 0];
       const isRTL = getDirection(Node.string(element)) === 'rtl';
@@ -765,13 +811,13 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
       // (2017/10/17)
       if (Hotkeys.isMoveLineBackward(nativeEvent)) {
         event.preventDefault();
-        Transforms.move(editor, { unit: 'line', reverse: true });
+        Transforms.move(editor, {unit: 'line', reverse: true});
         return;
       }
 
       if (Hotkeys.isMoveLineForward(nativeEvent)) {
         event.preventDefault();
-        Transforms.move(editor, { unit: 'line' });
+        Transforms.move(editor, {unit: 'line'});
         return;
       }
 
@@ -787,7 +833,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
 
       if (Hotkeys.isExtendLineForward(nativeEvent)) {
         event.preventDefault();
-        Transforms.move(editor, { unit: 'line', edge: 'focus' });
+        Transforms.move(editor, {unit: 'line', edge: 'focus'});
         return;
       }
 
@@ -800,9 +846,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         event.preventDefault();
 
         if (selection && Range.isCollapsed(selection)) {
-          Transforms.move(editor, { reverse: !isRTL });
+          Transforms.move(editor, {reverse: !isRTL});
         } else {
-          Transforms.collapse(editor, { edge: 'start' });
+          Transforms.collapse(editor, {edge: 'start'});
         }
 
         return;
@@ -812,9 +858,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         event.preventDefault();
 
         if (selection && Range.isCollapsed(selection)) {
-          Transforms.move(editor, { reverse: isRTL });
+          Transforms.move(editor, {reverse: isRTL});
         } else {
-          Transforms.collapse(editor, { edge: 'end' });
+          Transforms.collapse(editor, {edge: 'end'});
         }
 
         return;
@@ -867,7 +913,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           event.preventDefault();
 
           if (selection && Range.isExpanded(selection)) {
-            Editor.deleteFragment(editor, { direction: 'backward' });
+            Editor.deleteFragment(editor, {direction: 'backward'});
           } else {
             Editor.deleteBackward(editor);
           }
@@ -879,7 +925,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           event.preventDefault();
 
           if (selection && Range.isExpanded(selection)) {
-            Editor.deleteFragment(editor, { direction: 'forward' });
+            Editor.deleteFragment(editor, {direction: 'forward'});
           } else {
             Editor.deleteForward(editor);
           }
@@ -891,9 +937,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           event.preventDefault();
 
           if (selection && Range.isExpanded(selection)) {
-            Editor.deleteFragment(editor, { direction: 'backward' });
+            Editor.deleteFragment(editor, {direction: 'backward'});
           } else {
-            Editor.deleteBackward(editor, { unit: 'line' });
+            Editor.deleteBackward(editor, {unit: 'line'});
           }
 
           return;
@@ -903,9 +949,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           event.preventDefault();
 
           if (selection && Range.isExpanded(selection)) {
-            Editor.deleteFragment(editor, { direction: 'forward' });
+            Editor.deleteFragment(editor, {direction: 'forward'});
           } else {
-            Editor.deleteForward(editor, { unit: 'line' });
+            Editor.deleteForward(editor, {unit: 'line'});
           }
 
           return;
@@ -915,9 +961,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           event.preventDefault();
 
           if (selection && Range.isExpanded(selection)) {
-            Editor.deleteFragment(editor, { direction: 'backward' });
+            Editor.deleteFragment(editor, {direction: 'backward'});
           } else {
-            Editor.deleteBackward(editor, { unit: 'word' });
+            Editor.deleteBackward(editor, {unit: 'word'});
           }
 
           return;
@@ -927,9 +973,9 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
           event.preventDefault();
 
           if (selection && Range.isExpanded(selection)) {
-            Editor.deleteFragment(editor, { direction: 'forward' });
+            Editor.deleteFragment(editor, {direction: 'forward'});
           } else {
-            Editor.deleteForward(editor, { unit: 'word' });
+            Editor.deleteForward(editor, {unit: 'word'});
           }
 
           return;
@@ -955,7 +1001,7 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
               Editor.isInline(editor, currentNode)
             ) {
               event.preventDefault();
-              Transforms.delete(editor, { unit: 'block' });
+              Transforms.delete(editor, {unit: 'block'});
 
               return;
             }
@@ -982,6 +1028,13 @@ export class EditableComponent implements OnInit, OnChanges, AfterContentChecked
         event.preventDefault();
         AngularEditor.insertData(this.editor, event.clipboardData);
       }
+    }
+  }
+
+  private onDOMInput(event: InputEvent) {
+    const placeholderDOM = document.getElementById('slate-placeholder');
+    if (this.noInputValue && placeholderDOM) {
+      placeholderDOM.style.display = 'none';
     }
   }
 

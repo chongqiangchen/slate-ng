@@ -2,6 +2,7 @@ import { Directive, Host, HostBinding } from "@angular/core";
 
 @Directive()
 export abstract class BasePlaceholderComponent {
+  @HostBinding('attr.id') id = 'slate-placeholder';
   @HostBinding('attr.data-slate-placeholder') dataSlatePlaceholder = true;
   @HostBinding('attr.contentEditable') contentEditable = false;
   @HostBinding('style.display') styleDisplay = 'block';
