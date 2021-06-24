@@ -46,6 +46,9 @@ import {TableComponent} from './examples/table/table.component';
 import {MarkdownShortcutsComponent} from './examples/markdown-shortcuts/markdown-shortcuts.component';
 import {SlateNgModule} from 'slate-ng';
 import {NsElementTableModule} from 'slate-ng-element-table';
+import { ImagesComponent } from './examples/images/images.component';
+import { InsertImageButtonComponent } from './examples/images/insert-image-button/insert-image-button.component';
+import { ImageElementComponent } from './examples/images/image-element.component';
 
 
 @NgModule({
@@ -87,7 +90,10 @@ import {NsElementTableModule} from 'slate-ng-element-table';
     IframeComponent,
     IframeContainerComponent,
     TableComponent,
-    MarkdownShortcutsComponent
+    MarkdownShortcutsComponent,
+    ImagesComponent,
+    InsertImageButtonComponent,
+    ImageElementComponent
   ],
   imports: [
     BrowserModule,

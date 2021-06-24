@@ -1,4 +1,4 @@
-name: Node CI
+name: SITE BUILD
 
 on:
   push:
