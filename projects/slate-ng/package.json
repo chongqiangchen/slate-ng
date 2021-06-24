@@ -1,7 +1,7 @@
 {
   "name": "slate-ng",
   "description": "Tools for building completely customizable richtext editors with Angular.",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "repository": "https://github.com/chongqiangchen/slate-ng.git",
   "license": "MIT",
   "keywords": [
