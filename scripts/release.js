@@ -1,6 +1,8 @@
 const { execSync } = require('child_process');
 const semver = require('semver');
 const inquirer = require('inquirer');
+const fs = require('fs-extra');
+const path = require('path');
 
 const currentVersion = require('../projects/slate-ng/package.json').version;
 
@@ -38,6 +40,8 @@ const release = async () => {
     execSync(`standard-version -r ${release}`, {
       stdio: 'inherit',
     });
+
+    // fs.copySync(path.resolve(__dirname, '../CHANGELOG.md'), path.resolve(__dirname, '../projects/slate-ng/CHANGELOG.md'));
   }
 };
 
