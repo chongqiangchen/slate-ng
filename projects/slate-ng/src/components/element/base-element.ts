@@ -5,7 +5,7 @@ import {
   ElementRef,
   HostBinding,
   Inject,
-  OnDestroy, OnInit,
+  OnDestroy, OnInit, ViewChild,
 } from '@angular/core';
 import { CHILD_PORTALS_TOKEN, CURRENT_NODE_TOKEN, KEY_TOKEN } from './token';
 import { ComponentPortal } from '@angular/cdk/portal';
@@ -17,6 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { NsDepsService } from '../../services/ns-deps.service';
 import { NsEditorService } from '../../services/ns-editor.service';
+import {ElementAttrsDirective} from "../../directives/element-attrs.directive";
 
 @Directive()
 // tslint:disable-next-line:directive-class-suffix
@@ -28,6 +29,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterVi
   @HostBinding('attr.data-slate-inline') dataSlateInline = undefined;
   @HostBinding('attr.contenteditable') contentEditable = undefined;
   @HostBinding('attr.dir')  dir = undefined;
+  @ViewChild(ElementAttrsDirective, {read: ElementRef}) nsElementAttrBindRef: ElementRef;
 
   get injector() {
     return this.deps.get(this.key)?.injector;
@@ -51,6 +53,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterVi
   }
 
   ngOnInit() {
+    this.init();
     this.useHostAttrs() && this.updateAttrs();
   }
 
@@ -68,7 +71,7 @@ export abstract class BaseElementComponent implements OnInit, OnDestroy, AfterVi
    * update element and node info
    */
   init() {
-    const nativeElement = this.elementRef.nativeElement;
+    const nativeElement = this.useHostAttrs() ? this.elementRef.nativeElement : this.nsElementAttrBindRef.nativeElement;
     KEY_TO_ELEMENT.set(this.key, nativeElement);
     NODE_TO_ELEMENT.set(this.cNode, nativeElement);
     ELEMENT_TO_NODE.set(nativeElement, this.cNode);
