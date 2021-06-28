@@ -1,6 +1,9 @@
 {
-  "name": "slate-ng",
-  "version": "0.1.2",
+  "name": "slate-packages",
+  "version": "0.0.0-NOT-USED",
+  "workspaces": [
+    "projects/*"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -50,6 +53,8 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/lodash": "^4.14.149",
     "@types/node": "^12.11.1",
+    "@changesets/changelog-github": "^0.4.0",
+    "@changesets/cli": "^2.16.0",
     "codelyzer": "^6.0.0",
     "fs-extra": "^10.0.0",
     "glob": "^7.1.7",

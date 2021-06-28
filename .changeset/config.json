@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@1.6.0/schema.json",
+  "changelog": [
+    "@changesets/changelog-github",
+    { "repo": "chongqiangchen/slate-ng" }
+  ],
+  "commit": false,
+  "linked": [["slate-ng-element-table", "slate-ng"]],
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "ignore": []
+}
