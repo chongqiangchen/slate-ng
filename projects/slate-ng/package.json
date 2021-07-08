@@ -31,5 +31,16 @@
     "is-hotkey": "^0.1.6",
     "scroll-into-view-if-needed": "2.2.25",
     "direction": "^1.0.3"
-  }
+  },
+  "main": "dist/bundles/slate-ng.umd.js",
+  "module": "dist/fesm2015/slate-ng.js",
+  "es2015": "dist/fesm2015/slate-ng.js",
+  "esm2015": "dist/esm2015/slate-ng.js",
+  "fesm2015": "dist/fesm2015/slate-ng.js",
+  "typings": "dist/slate-ng.d.ts",
+  "metadata": "dist/slate-ng.metadata.json",
+  "sideEffects": false,
+  "files": [
+    "dist"
+  ]
 }

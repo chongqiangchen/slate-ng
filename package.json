@@ -15,7 +15,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "commit": "npx git-cz",
-    "release": "node ./scripts/release.js && yarn build-lib:prod && npm publish ./dist/slate-ng",
+    "prerelease": "yarn build-lib:prod && yarn build-plugin-table:prod",
     "release-plugin-table": "yarn build-plugin-table:prod && node ./scripts/build-slate-ng-element-table.js && npm publish ./dist/slate-ng-element-table"
   },
   "private": true,
