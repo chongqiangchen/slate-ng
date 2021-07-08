@@ -11,7 +11,6 @@ import {KEY_TOKEN} from './token';
 import {Key} from '../../utils/key';
 import {NsEditorService} from '../../services/ns-editor.service';
 import {NsDepsService} from '../../services/ns-deps.service';
-import {startWith, takeUntil} from "rxjs/operators";
 
 @Component({
   selector: 'div[ns-element]',
