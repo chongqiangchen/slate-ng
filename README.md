@@ -7,8 +7,7 @@
 https://chongqiangchen.github.io/slate-ng/
 
 ## Todo
-- [ ] support template portal
-- [ ] support dom portal
+- [ ] refactor the rendering method of custom components/template
 - [x] support slate ng plugins ，like [slate-ng-element-table](./projects/slate-ng-element-table/README.md)
 
 ## LICENSE
