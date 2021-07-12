@@ -1,5 +1,13 @@
 # slate-ng
 
+## 0.1.4
+
+### Patch Changes
+
+- [#4](https://github.com/chongqiangchen/slate-ng/pull/4) [`8a00c42`](https://github.com/chongqiangchen/slate-ng/commit/8a00c42896385f2458d60ffc4efc2e6200815263) Thanks [@chongqiangchen](https://github.com/chongqiangchen)! - test changeset 1
+
+* [#4](https://github.com/chongqiangchen/slate-ng/pull/4) [`8a00c42`](https://github.com/chongqiangchen/slate-ng/commit/8a00c42896385f2458d60ffc4efc2e6200815263) Thanks [@chongqiangchen](https://github.com/chongqiangchen)! - test changeset
+
 ## 0.1.3
 
 ### Patch Changes
